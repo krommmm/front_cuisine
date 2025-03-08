@@ -1,0 +1,217 @@
+@media screen and (max-width: 1105px) {
+    body .focus__body {
+        flex-direction: column;
+    }
+
+    body .focus__header {
+        width: 60%;
+    }
+
+    body .focus__author {
+        width: 50%;
+    }
+
+    html .footer__content {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 1080px) {
+    .search__content {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 814px) {
+    body .home__banner__annonce {
+        width: auto;
+        left: 0px;
+        border-radius: 0px;
+    }
+
+    body .focus__header {
+        width: 80%;
+    }
+
+    body .focus__author {
+        width: 80%;
+    }
+
+
+
+    html .focus__body__left,
+    .focus__body__right {
+        width: 500px;
+        height: auto;
+    }
+
+
+    body .btn {
+
+        padding: 8px 17px;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 11px;
+    }
+
+    body .search__auth img {
+        width: 21px;
+    }
+}
+
+@media screen and (max-width: 552px) {
+
+    html .focus__body__left,
+    .focus__body__right {
+        width: 100%;
+        height: auto;
+    }
+
+    html .focus__body__left__img {
+        width: 100%;
+    }
+
+    html .focus__header--title {
+        font-size: 20px;
+        padding: 8px 7px;
+        height: fit-content;
+    }
+
+    html .focus__header i {
+        font-size: 21px;
+    }
+
+    html .ingredients__body,
+    .instructions__body {
+        width: 90%;
+    }
+
+    html .footer__content {
+        flex-direction: column;
+    }
+
+    html .footer__block {
+        margin: 8px 0px;
+    }
+
+    html .createPage__content {
+        width: 100%;
+    }
+
+    html .formEtape {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    html .updateMenu > h1{
+        font-size: 20px;
+        text-align: center;
+        padding: 6px;
+        background-color: rgba(0,0,0,.3);
+        color: white;
+    }
+
+}
+
+@media screen and (max-width: 450px) {
+    html .updateMenu {
+        width: 100%;
+    }
+
+    html .formEtape {
+        width: 100%;
+    }
+
+    html .updateMenu>h1 {
+        font-size: 20px;
+        text-align: center;
+    }
+
+    html .formEtape form>div>input {
+        width: 300px;
+    }
+
+    html .formEtage__header__previousPage {
+        font-size: 17px;
+        padding: 7px 8px;
+    }
+
+    html .formEtage__header h2 {
+        font-size: 17px;
+    }
+
+    html .formEtape form {
+        padding: 7px;
+    }
+}
+
+
+@media screen and (max-width: 750px) {
+    html main {
+        padding-top: 260px;
+    }
+
+
+
+    .search__content {
+        flex-direction: column;
+    }
+
+    .searchBar {
+        width: auto;
+    }
+
+    .searchBar input {
+        min-width: 115px;
+        margin: 18px 0px;
+    }
+
+    .navigation__content {
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+}
+
+
+@media screen and (max-width: 677px) {
+    body .recipes {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        flex-direction: column;
+        width: 95%;
+    }
+
+    body .recipe__top {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 526px) {
+    body .MobileNavigation {
+        display: flex;
+    }
+
+    body .navigation__content {
+        display: none;
+    }
+
+    body .searchBar__miniNavigation {
+        display: flex;
+    }
+
+    body .home__banner__annonce {
+        left: 0px;
+        width: auto;
+    }
+
+    body .home__banner__annonce h1 {
+        font-size: 23px;
+    }
+
+    body .home__banner__annonce p {
+        font-size: 14px;
+    }
+}

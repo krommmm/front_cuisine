@@ -1,0 +1,46 @@
+.usersPage__users {
+    width: 300px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.usersPage__users__content__header {
+    border: 1px solid black;
+    padding: 10px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.usersPage__users__content__fiche {
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+}
+.usersPage__users__content__fiche:hover{
+    background-color:rgba(0,0,0,.1);
+    cursor:pointer;
+}
+
+.usersPage__users__content__fiche--profile {
+    display: flex;
+    align-items: center;
+}
+
+.usersPage__users__content__fiche--profile img {
+    width: 40px;
+    height: 40px;
+    margin-right: 15px;
+}
+
+.usersPage__users__content__fiche--isConnected {
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    margin-right: 15px;
+}
+

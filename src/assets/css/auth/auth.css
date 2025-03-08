@@ -1,0 +1,92 @@
+.auth {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 50px;
+}
+
+.auth__selectionPage {
+    display: flex;
+}
+
+.auth__selectionPage h2 {
+    margin: 15px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.auth button {
+    border: none;
+    background-color: rgb(219, 184, 35);
+    padding: 15px;
+    color: black;
+    font-weight: 600;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.btn-auth {
+    width: 100%;
+    font-weight: 600;
+    text-align: center;
+    margin: 3px 0px;
+    animation-name: appearsSlowlyFromRight;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+
+.auth input {
+    height: 40px;
+    margin: 15px 0;
+    outline: none;
+    padding-left: 15px;
+    width: 100%;
+}
+
+.bgDeep-true {
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    background-color: rgb(219, 184, 35);
+    padding: 15px;
+}
+
+.bgDeep-false {
+    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    padding: 15px;
+}
+
+.auth__selectionPage {
+    margin: 50px 0px;
+}
+
+.auth button {
+    cursor: pointer;
+}
+
+.auth label {
+    font-weight: 600;
+}
+
+.passwordCheck {
+    color: green;
+}
+
+.signUp__passwordContainer {
+    position: relative;
+}
+
+.passwordVerification {
+    position: absolute;
+    top: 25px;
+    right: 14px;
+    animation-name: heart;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+.pwd_indications {
+    font-size: 12px;
+    display: flex;
+    color: rgb(110, 135, 65);
+}

@@ -1,0 +1,7 @@
+.promo{
+    background-color: rgb(219, 184, 35);
+    color: black;
+    padding: 10px;
+    display:flex;
+    justify-content:center;
+}

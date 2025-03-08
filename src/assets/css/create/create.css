@@ -1,0 +1,307 @@
+.createPage {}
+
+
+
+.createPage__content {
+    width: 550px;
+    margin: auto;
+    margin-top: 25px;
+}
+
+.createRecipeForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.createRecipeForm>div {
+    display: flex;
+}
+
+
+.createRecipeForm>div>div {
+    display: flex;
+    flex-direction: column;
+}
+
+.createRecipeForm label {
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.createRecipeForm input {
+    height: 40px;
+    margin: 5px 0 10px;
+    outline: none;
+    padding-left: 15px;
+    width: 100%;
+}
+
+.createRecipeForm select {
+    height: 40px;
+    margin: 15px 0;
+    text-align: center;
+    width: fit-content;
+    padding: 5px;
+    background-color: white;
+}
+
+.createRecipeForm>div>div>div {
+    display: flex;
+    flex-direction: column;
+}
+
+.createRecipeForm__left {
+    margin-right: 10px;
+}
+
+.createRecipeForm .btn {
+    margin: 5px 0px;
+}
+
+.createRecipeForm button[type="submit"] {
+    width: fit-content;
+    background-color: rgb(219, 184, 35);
+}
+
+.pink {
+    background-color: #ffb0b0;
+}
+
+.blue {
+    background-color: #90caf9;
+}
+
+.green {
+    background-color: #a5d6a7;
+}
+
+.selectIngredients {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ingredients */
+
+
+.ingredients__header,
+.instructions__header {
+    display: flex;
+    align-items: center;
+}
+
+.ingredients__body,
+.instructions__body {
+    overflow: auto;
+    height: 150px;
+
+    padding: 9px;
+    border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.ingredients__body__ingredient,
+.instructions__body__instruction {
+    display: flex;
+    align-items: center;
+    margin: 3px;
+}
+
+.ingredients__body__ingredient i,
+.instructions__body__instruction i {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+/* footer */
+.createRecipeForm__footer {
+    display: flex;
+    align-items: center;
+}
+
+.createRecipeForm__footer button:first-child {
+    margin-right: 10px;
+}
+
+.createRecipeForm__footer .answer {
+    animation-name: appearsSlowlyFromRight;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+
+.formEtape .answerButtons {
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.btn-create {
+    animation-name: appearsSlowlyFromRight;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+
+.createRecipeForm .state-true {
+    display: flex;
+}
+
+.createRecipeForm .state-false {
+    display: none;
+}
+
+/* nouveau ............................................. */
+.formEtape {
+    animation-name: appearsSlowlyFromRight;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+
+.formEtape>p {
+    font-size: 14px;
+    color: rgba(0, 0, 0, .8);
+}
+
+.formEtape>h2 {
+    font-size: 20px;
+    margin: 15px 0px;
+    font-weight: 500;
+}
+
+.formEtape form {
+    max-width: 400px;
+}
+
+.formEtape form>div {
+    display: flex;
+    flex-direction: column;
+}
+
+.formEtape form>div>label {
+    font-size: 13px;
+}
+
+.formEtape form>div>input {
+    height: 40px;
+    margin: 5px 0 10px;
+    outline: none;
+    padding-left: 15px;
+    width: 100%;
+}
+
+.formEtape .state-true {
+    display: flex;
+    animation-name: appearsSlowlyFromRight;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+
+.formEtape .state-false {
+    display: none;
+    animation-name: appearsSlowlyFromRight;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+
+.formEtape .answerButtons {
+    display: flex;
+    flex-direction: row !important;
+}
+
+.formEtape .btn {
+    width: fit-content;
+}
+
+.btn-suivant {
+    margin-right: 10px;
+    background-color: rgb(219, 184, 35);
+}
+
+.formEtape .divSelect {
+    margin: 10px 0px;
+}
+
+.formEtape .divSelect label {
+    margin: 5px 0px;
+    font-size: 15px;
+}
+
+.formEtape select {
+    background-color: white;
+    padding: 5px;
+    width: 178px;
+}
+
+.ingredients__body,
+.instructions__body {
+    overflow: auto;
+    height: 150px;
+    padding: 31px;
+    width: 300px;
+    border-radius: 3px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 426px;
+    border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.ingredients__body__ingredient,
+.instructions__body__instruction {
+    border: 1px solid rgba(0, 0, 0, .2);
+    background-color: white;
+    padding: 7px;
+    margin: 13px 7px;
+    width: fit-content;
+    height: fit-content;
+}
+
+.btn-createTags {
+    background-color: rgb(219, 184, 35);
+    color: black;
+    padding: 7px 10px;
+    border-radius: 3px;
+    margin-left: 5px;
+}
+
+.ingredients__header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.ingredients__header input {
+    height: 32px;
+    margin: 6px 0px;
+    padding: 5px;
+
+}
+
+.ingredients__header label {
+    margin: 10px 0px 5px 0px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.ingredients__header>div label {
+    margin: 10px 0px 5px 0px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.selectIngredients>div {
+    margin: 5px 0px;
+}
+
+.formEtape .answerButtons {
+    margin-top: 5px;
+}
+
+.ingredient__body--true {
+    display: flex;
+}
+
+.ingredient__body--false {
+    display: none;
+}

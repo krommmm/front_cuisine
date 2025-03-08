@@ -1,0 +1,41 @@
+@import "./miseEnPage.css";
+@import "./utils.css";
+@import "./footer.css";
+@import "./animations.css";
+
+/* header */
+@import "./header/header.css";
+@import "./header/promo.css";
+@import "./header/search.css";
+@import "./header/navigation.css";
+
+/* home */
+@import "./home/banner.css";
+@import "./home/recettesHorizontal.css";
+
+
+/* auth */
+@import "./auth/auth.css";
+
+/* recipe */
+@import "./recipes/recipe.css";
+
+
+/* focus */
+@import "./focus/focus.css";
+@import "./focus/update.css";
+
+/* admin */
+@import "./create/create.css";
+
+/* profil */
+@import "./profil//profil.css";
+
+/* users */
+@import "./users/users.css";
+
+/* chat */
+@import "./chat/chat.css";
+
+/* media queries */
+@import "./@mediaQueries.css";

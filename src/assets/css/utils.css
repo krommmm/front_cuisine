@@ -1,0 +1,57 @@
+@font-face {
+    font-family: ferdinand;
+    src: url("../fonts/Ferdinand.ttf");
+}
+
+@font-face {
+    font-family: roboto;
+    src: url("../fonts/Roboto-Medium.ttf");
+}
+
+body{
+    font-family:roboto;
+}
+
+.btn {
+    border: none;
+    padding: 11px 24px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.answer-true {
+    background-color: green;
+    color: white;
+}
+
+.answer-false {
+    background-color: #e87c03;
+    color: white;
+}
+
+.state-true {
+    display: flex;
+}
+
+.state-false {
+    display: none;
+}
+
+.hearth--true {
+    color: red;
+    transition:1s;
+}
+
+.hearth--false {
+    color: rgb(156, 140, 140);
+}
+
+.userIconnected--true {
+    background-color: green;
+}
+
+.userIconnected--false {
+    background-color: red;
+}
+

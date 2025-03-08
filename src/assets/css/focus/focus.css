@@ -1,0 +1,331 @@
+.focus {
+    background-size: cover;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.focus__filter {
+    position: relative;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    backdrop-filter: blur(17px);
+    display: flex;
+    flex-direction: column;
+}
+
+/* header */
+.focus__header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    width: 1029px;
+    margin: auto;
+}
+
+.focus__header i {
+    margin-right: 20px;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, .3);
+    border-radius: 5px;
+    color: black;
+    font-size: 30px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.focus__header--title {
+    color: rgba(0, 0, 0, .7);
+    font-size: 27px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    background-color: rgba(255, 255, 255, .5);
+    width: fit-content;
+    height: 50px;
+    padding: 10px;
+    border-radius: 3px;
+}
+
+.focus__author {
+    display: flex;
+    align-items: center;
+    width: 1029px;
+    margin: auto;
+    padding-left: 15px;
+}
+
+.focus__author>p {
+    margin-right: 10px;
+    text-transform: capitalize;
+}
+
+.focus__author img {
+    width: 31px;
+    height: 31px;
+    border-radius: 50%;
+    padding: 0px;
+}
+
+/* left  */
+
+.focus__body {
+    margin: auto;
+    display: flex;
+}
+
+.focus__body__left {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    margin-right: 40px;
+}
+
+
+.focus__body__right {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+}
+
+.focus__body__left__img {
+    border-radius: 5px;
+    width: 500px;
+    height: auto;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.focus__body__left__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
+.focus__body__left__console {
+    border-radius: 5px;
+    margin: 15px 0px;
+
+}
+
+.focus__body__left__console__indications,
+.focus__body__left__console__buttons {
+    background-color: rgba(255, 255, 255, .7);
+    padding: 10px;
+}
+
+.focus__body__left__console__indications {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.focus__body__left__console__buttons {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.focus__body__left__console__buttons .btn {
+    background-color: rgb(219, 184, 35);
+    color: black;
+    margin: 4px;
+}
+
+.focus__body__left__console__indications img {
+    width: 34px;
+}
+
+.focus__body__left__img {
+    position: relative;
+}
+
+.bannerTag {
+    position: absolute;
+    top: -4px;
+    clip-path: polygon(100% 85%, 50% 100%, 0 85%, 0 0, 100% 0);
+    width: 36px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    padding: 12px 0px;
+    cursor: pointer;
+    color: honeydew;
+}
+
+.bannerTag--delete {
+    background: rgb(250, 0, 0);
+    background: linear-gradient(342deg, rgba(250, 0, 0, 1) 27%, rgba(150, 0, 0, 1) 100%);
+    right: 6px;
+    z-index: 2;
+}
+
+.bannerTag--update {
+    background: rgb(7, 180, 56);
+    background: linear-gradient(342deg, rgba(7, 180, 56, 1) 27%, rgba(2, 98, 36, 1) 100%);
+    right: 48px;
+    z-index: 2;
+}
+
+.bannerTag--update2 {
+    position: absolute;
+    top: -6px;
+    clip-path: polygon(100% 85%, 50% 100%, 0 85%, 0 0, 100% 0);
+    width: 40px;
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    padding: 12px 0px;
+    cursor: pointer;
+    color: honeydew;
+    background: black;
+    z-index: 1;
+    right: 46px;
+}
+
+.bannerTag--delete2 {
+    position: absolute;
+    top: -6px;
+    clip-path: polygon(100% 85%, 50% 100%, 0 85%, 0 0, 100% 0);
+    width: 41px;
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    padding: 12px 0px;
+    cursor: pointer;
+    color: honeydew;
+    background: black;
+    z-index: 1;
+    right: 4px;
+}
+
+
+
+.focus__body__left__console__indications ul {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.focus__body__left__console__indications ul>li {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.focus__body__left__console__indications ul>li>p {
+    text-align: center;
+    color: black;
+    margin-top: 5px;
+}
+
+.barVertical {
+    border: 1px solid rgba(0, 0, 0, .3);
+    height: 41px;
+}
+
+.focus__body__left__console__buttons {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.focus__body__left__console__buttons .btn {
+    background-color: rgb(219, 184, 35);
+    color: black;
+}
+
+.focus__body__left__console__footer__tags {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.focus__body__left__console__footer__tags .btn-tag {
+    width: fit-content;
+    background: rgb(239, 71, 106);
+    background: linear-gradient(90deg, rgba(239, 71, 106, 1) 0%, rgba(241, 97, 130, 1) 63%);
+    border: 1px solid rgb(221, 46, 81);
+    font-weight: 600;
+    cursor: auto;
+    margin: 2px;
+}
+
+.focus__body__right {
+    background-color: rgba(255, 255, 255, .7);
+    padding: 20px;
+    color: black;
+}
+
+.focus__body__left__console__footer {
+    margin-top: 15px;
+    background-color: rgba(255, 255, 255, .7);
+    padding: 20px;
+    border-radius: 5px;
+}
+
+
+
+/* ingredients */
+.focusRight__ingredients {
+    margin: 15px 0px;
+}
+
+.focusRight--nbPersonnes {
+    margin: 30px 0px;
+    display: flex;
+    justify-content: center;
+}
+
+.focusRight__ingredients__ingredient {
+    display: flex;
+    align-items: center;
+    margin: 5px 0px;
+}
+
+.focusRight__ingredients__ingredient i {
+    margin-right: 5px;
+}
+
+.focusRight__barHorizontal {
+    border-bottom: 1px solid rgba(0, 0, 0, .3);
+    margin: 50px 0px;
+}
+
+.focusRight__steps__etapes__step--number {
+    color: rgb(239, 71, 106);
+    font-weight: 600;
+    margin-right: 15px;
+}
+
+.focusRight__steps__etapes {
+    margin-top: 21px;
+}
+
+.focusRight__steps__etapes__step {
+    margin: 5px 0px;
+}
+
+/* hauteur */
+.focus__body {
+    height: auto;
+    padding: 30px;
+    margin-bottom: 50px;
+}
+
+.focus__body__left,
+.focus__body__right {
+
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.focusRight__ingredients,
+.focusRight__steps {
+    height: 200px;
+    overflow: auto;
+}

@@ -1,0 +1,1 @@
+export const HOST = "https://cuisine.tbuilder.fr";

@@ -1,0 +1,56 @@
+.updateMenu {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin: auto;
+}
+
+.updateMenu>h1 {
+    margin: 15px 0px;
+}
+
+.formEtape {
+    width: 400px;
+    margin: auto;
+}
+
+.clickable:hover {
+    border: 2px dotted red;
+    cursor: pointer;
+    filter: brightness(0.5);
+}
+
+.clickable:hover img {
+    border: none;
+}
+
+.formEtage__header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin: 25px 0px;
+}
+
+.formEtage__header__previousPage {
+    margin-right: 20px;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, .3);
+    border-radius: 5px;
+    color: black;
+    font-size: 20px;
+    padding: 4px 9px;
+    cursor: pointer;
+}
+
+.formEtage__header h2 {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+html .updateMenu>h1 {
+    font-weight: 500;
+    padding: 6px;
+    background-color: rgba(0, 0, 0, .3);
+    color: white;
+    font-size: 22px;
+}
