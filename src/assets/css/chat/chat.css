@@ -195,15 +195,14 @@
     justify-content: center;
 }
 
-.chatRoom__content__footer__input textarea {
-    width: 90%;
-    margin: auto;
-    border-radius: 10px;
-    height: 80px;
-    background-color: rgba(151, 139, 139, 0.1);
-    padding: 15px;
+.chatRoom__content__footer__input input {
+    height: 85px;
+    width: 92%;
+    padding-left: 15px;
+    background-color: rgb(244,242,238);
+    color: rgb(25,25,25);
     border: none;
-    resize: none;
+    border-radius: 9px;
 }
 
 
