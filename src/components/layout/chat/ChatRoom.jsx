@@ -47,7 +47,6 @@ export function ChatRoom({ userId, onUpdateUserId, users, knock }) {
     };
   }, []); // Cette effect se lance une seule fois, lors du premier rendu
 
-  
 
   useEffect(() => {
     if (myId && userId) {

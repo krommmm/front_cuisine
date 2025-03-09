@@ -20,18 +20,6 @@ export function ChatList({ users, onUpdateUserId, knock }) {
         controller();
     }, [users]);
 
-    useEffect(() => {
-        if (socketRef.current) {
-          socketRef.current.on("receiveAlert", ({ fromUserId }) => {
-            alert(`L'utilisateur ${fromUserId} veut chatter avec toi !`);
-          });
-      
-        
-          return () => {
-            socketRef.current.off("receiveAlert");
-          };
-        }
-      }, []);
 
     function searchUsers(e) {
         const query = e.target.value.toLowerCase();
