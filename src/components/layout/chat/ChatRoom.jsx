@@ -57,6 +57,8 @@ export function ChatRoom({ userId, onUpdateUserId, users }) {
     }
   }, [myId, userId]); // Cette effect se lance chaque fois que myId ou userId change
 
+  
+
   function joinPrivateChat(userId1, userId2) {
     socketRef.current.emit("joinPrivateChat", userId1, userId2);
   }
