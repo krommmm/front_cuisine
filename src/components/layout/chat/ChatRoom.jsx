@@ -62,6 +62,12 @@ export function ChatRoom({ userId, onUpdateUserId, users, knock }) {
   }, []);
 
   useEffect(() => {
+    if (socketRef.current && myId) {
+      socketRef.current.emit("registerUser", myId);
+    }
+  }, [myId]);
+
+  useEffect(() => {
     if (myId && userId) {
       console.log(`Joining private chat between ${myId} and ${userId}`);
       joinPrivateChat(myId, userId);
