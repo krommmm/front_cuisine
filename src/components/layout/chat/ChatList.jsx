@@ -2,7 +2,7 @@ import { HOST } from "../../../host";
 import { useEffect, useState } from "react";
 import { getMyId } from "../../../services/auth"
 
-export function ChatList({ users, onUpdateUserId }) { 
+export function ChatList({ users, onUpdateUserId, knock }) { 
 
     const [dataUsers, setDataUsers] = useState([]);
 
@@ -48,6 +48,7 @@ export function ChatList({ users, onUpdateUserId }) {
                             <div className={`chatList__fiche__isConnected userIconnected--${user.isConnected === 0 ? "false" : "true"}`}></div>
                             <p>{user.name}</p>
                         </div>
+                        {knock && knock!=="" && <p>🔔</p>}
                     </div>
                 ))}
             </div>

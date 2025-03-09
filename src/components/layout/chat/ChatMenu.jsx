@@ -9,6 +9,7 @@ export function ChatMenu() {
   const [myProfil, setMyProfil] = useState({});
   const [users, setUsers] = useState([]);
   const [roomTargetUserId, setRoomTargetUserId] = useState("");
+  const [emmeteur, setEmmeteur] = useState("");
 
   useEffect(() => {
     setUpMyProfil();
@@ -44,7 +45,7 @@ export function ChatMenu() {
           />
         )}
         {users && !chatMode && (
-          <ChatList users={users} onUpdateUserId={setRoomTargetUserId} />
+          <ChatList users={users} onUpdateUserId={setRoomTargetUserId} knock={emmeteur} />
         )}
       </div>
       {/* Afficher ChatRoom uniquement si roomTargetUserId est défini */}
@@ -53,6 +54,7 @@ export function ChatMenu() {
           userId={roomTargetUserId}
           onUpdateUserId={setRoomTargetUserId}
           users={users}
+          knock={setEmmeteur}
         />
       ) : (
       <p></p>

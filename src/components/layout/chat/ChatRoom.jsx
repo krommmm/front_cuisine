@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 import { HOST } from "../../../host";
 import { getMyId, getUsers } from "../../../services/auth";
 
-export function ChatRoom({ userId, onUpdateUserId, users }) {
+export function ChatRoom({ userId, onUpdateUserId, users, knock }) {
   const [myId, setMyId] = useState(null);
   const [userToChat, setUserToChat] = useState();
   const socketRef = useRef(null);
@@ -48,8 +48,6 @@ export function ChatRoom({ userId, onUpdateUserId, users }) {
   }, []); // Cette effect se lance une seule fois, lors du premier rendu
 
 
-
-
   useEffect(() => {
     if (myId && userId) {
       console.log(`Joining private chat between ${myId} and ${userId}`);
@@ -57,10 +55,12 @@ export function ChatRoom({ userId, onUpdateUserId, users }) {
     }
   }, [myId, userId]); // Cette effect se lance chaque fois que myId ou userId change
 
-  
+
 
   function joinPrivateChat(userId1, userId2) {
     socketRef.current.emit("joinPrivateChat", userId1, userId2);
+    // quand qqun rejoind le chat on envoie le userId1 sur chatList
+    knock(userId1);
   }
 
   function sendMessage(sender, receiver, message) {
@@ -74,7 +74,7 @@ export function ChatRoom({ userId, onUpdateUserId, users }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const msg = e.target.message.value; 
+    const msg = e.target.message.value;
     if (msg.trim() === "") return;
     sendMessage(myId, userId, msg);
     e.target.reset();
@@ -105,7 +105,7 @@ export function ChatRoom({ userId, onUpdateUserId, users }) {
         <div className="chatRoom__content__footer">
           <form onSubmit={handleSubmit}>
             <div className="chatRoom__content__footer__input">
-              <input type="text" name="message" placeholder="Rédigez un message..."/>
+              <input type="text" name="message" placeholder="Rédigez un message..." />
             </div>
             <div className="chatRoom__content__footer__send">
               <button type="submit">Envoyer</button>
