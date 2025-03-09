@@ -9,13 +9,11 @@ export function ChatMenu() {
   const [myProfil, setMyProfil] = useState({});
   const [users, setUsers] = useState([]);
   const [roomTargetUserId, setRoomTargetUserId] = useState("");
-  const [emmeteur, setEmmeteur] = useState("");
-  const [toogle, setToogle] = useState(false);
 
   useEffect(() => {
     setUpMyProfil();
     setUpUsersProfils();
-  }, [emmeteur]);
+  }, []);
 
   async function setUpMyProfil() {
     const res = await getMyProfil();
@@ -28,9 +26,9 @@ export function ChatMenu() {
     const res = await getUsers();
     if (res.ok) {
       setUsers(res.data.users);
-      // Définir un utilisateur par défaut au premier chargement
+
       if (res.data.users.length > 0) {
-        setRoomTargetUserId(""); // Utilisateur par défaut
+        setRoomTargetUserId("");
       }
     }
   }
@@ -46,16 +44,14 @@ export function ChatMenu() {
           />
         )}
         {users && !chatMode && (
-          <ChatList users={users} onUpdateUserId={setRoomTargetUserId} knock={emmeteur} />
+          <ChatList users={users} onUpdateUserId={setRoomTargetUserId} />
         )}
       </div>
-      {/* Afficher ChatRoom uniquement si roomTargetUserId est défini */}
       {roomTargetUserId !== "" ? (
         <ChatRoom
           userId={roomTargetUserId}
           onUpdateUserId={setRoomTargetUserId}
           users={users}
-          knock={setEmmeteur}
         />
       ) : (
         <p></p>

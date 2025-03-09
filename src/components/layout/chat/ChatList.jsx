@@ -2,7 +2,7 @@ import { HOST } from "../../../host";
 import { useEffect, useState, useRef } from "react";
 import { getMyId } from "../../../services/auth"
 
-export function ChatList({ users, onUpdateUserId, knock }) {
+export function ChatList({ users, onUpdateUserId }) {
 
     const [dataUsers, setDataUsers] = useState([]);
     const socketRef = useRef(null);
@@ -13,7 +13,6 @@ export function ChatList({ users, onUpdateUserId, knock }) {
             const resId = await getMyId();
             const myId = resId.data.userId;
             const usersWithoutMe = users.filter((user) => user._id !== myId);
-            console.log(users);
             setDataUsers(usersWithoutMe);
         };
         controller();
@@ -56,9 +55,6 @@ export function ChatList({ users, onUpdateUserId, knock }) {
                             <div className={`chatList__fiche__isConnected userIconnected--${user.isConnected === 0 ? "false" : "true"}`}></div>
                             <p>{user.name}</p>
                         </div>
-                        {console.log(knock)}
-                        {console.log(user._id)}
-                        {knock && knock === user._id && <p>🔔</p>}
                     </div>
                 ))}
             </div>

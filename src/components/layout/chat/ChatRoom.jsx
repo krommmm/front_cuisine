@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import { HOST } from "../../../host";
-import { getMyId, getUsers } from "../../../services/auth";
+import { getMyId } from "../../../services/auth";
 
-export function ChatRoom({ userId, onUpdateUserId, users, knock }) {
+export function ChatRoom({ userId, onUpdateUserId, users }) {
   const [myId, setMyId] = useState(null);
   const [userToChat, setUserToChat] = useState();
   const socketRef = useRef(null);
@@ -15,10 +15,7 @@ export function ChatRoom({ userId, onUpdateUserId, users, knock }) {
         const resId = await getMyId();
         setMyId(resId.data.userId);
         const userSearched = users.filter((user) => user._id === userId);
-        console.log(userSearched);
         setUserToChat(userSearched[0]);
-        console.log(resId.data.userId);
-        console.log(userId);
       } catch (error) {
         console.error("Erreur lors de la récupération de l'ID :", error);
       }
@@ -35,9 +32,7 @@ export function ChatRoom({ userId, onUpdateUserId, users, knock }) {
 
     socketRef.current.on("receiveMessage", (data) => {
       console.log(`Message from ${data.sender}: ${data.message}`);
-      console.log(data.sender);
       const sender = (users.filter((user) => user._id === data.sender))[0];
-      console.log(sender);
       setHistoryChat((prevS) => [...prevS, ({ name: sender.name, img_url: sender.img_url, msg: data.message })]);
       // convertir id en img + name
     });
@@ -59,8 +54,6 @@ export function ChatRoom({ userId, onUpdateUserId, users, knock }) {
 
   function joinPrivateChat(userId1, userId2) {
     socketRef.current.emit("joinPrivateChat", userId1, userId2);
-    // quand qqun rejoind le chat on envoie le userId1 sur chatList
-    knock(userId1);
   }
 
   function sendMessage(sender, receiver, message) {
@@ -82,7 +75,6 @@ export function ChatRoom({ userId, onUpdateUserId, users, knock }) {
 
   return (
     <div className="chatRoom">
-      {console.log(historyChat)}
       <div className="chatRoom__content">
         <div className="chatRoom__content__header">
           <div className="chatRoom__content__header--profil">
