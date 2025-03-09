@@ -7,7 +7,7 @@ export function ChatList({ users, onUpdateUserId }) {
     const [dataUsers, setDataUsers] = useState([]);
 
     useEffect(() => {
-        // récupérer l'id du user et supprimer son profile de users
+        // récupérer l'id du user et supprimer son profil de users
         async function controller(){
             const resId = await getMyId();
             const myId = resId.data.userId;
@@ -16,7 +16,6 @@ export function ChatList({ users, onUpdateUserId }) {
             setDataUsers(usersWithoutMe);
         };
         controller();
-
     }, [users])
 
     function searchUsers(e) {

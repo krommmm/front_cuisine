@@ -55,7 +55,7 @@ export function ChatMenu() {
           users={users}
         />
       ) : (
-        <p>Veuillez sélectionner un utilisateur pour commencer à discuter.</p>
+      <p></p>
       )}
     </div>
   );
