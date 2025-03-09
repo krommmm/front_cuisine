@@ -1,13 +1,11 @@
 import { HOST } from "../../../host";
 import { useEffect, useState, useRef } from "react";
 import { getMyId } from "../../../services/auth"
-import { io } from "socket.io-client";
 
 export function ChatList({ users, onUpdateUserId, knock }) {
 
     const [dataUsers, setDataUsers] = useState([]);
     const socketRef = useRef(null);
-    const [alert, setAlert] = useState(false);
 
     useEffect(() => {
         // récupérer l'id du user et supprimer son profil de users
@@ -19,8 +17,7 @@ export function ChatList({ users, onUpdateUserId, knock }) {
             setDataUsers(usersWithoutMe);
         };
         controller();
-    }, [users]);
-
+    }, [users])
 
     function searchUsers(e) {
         const query = e.target.value.toLowerCase();
@@ -30,29 +27,13 @@ export function ChatList({ users, onUpdateUserId, knock }) {
     }
 
 
-
-
     function setUpRoomInfo(e) {
         const userId = e.currentTarget.dataset.id;
 
         setTimeout(() => {
             onUpdateUserId(userId);
             // Envoyer une alerte à l'utilisateur ciblé
-
-            // Création de la connexion socket une seule fois
-            socketRef.current = io(`${HOST}`, { withCredentials: true });
-
-            socketRef.current.on("connect", () => {
-                console.log("Connected to server:", socketRef.current.id);
-            });
-            socketRef.current.emit("alertUser", { targetUserId: userId });
-            socketRef.current.on("receiveAlert", ({ fromUserId }) => {
-                alert(`L'utilisateur ${fromUserId} veut chatter avec toi !`);
-                console.log("un utilistaeur veut discuter av toi ")
-            });
-            socketRef.current.emit("registerUser", userId);
-
-
+            socketRef.current.emit("alertUser", userId);
         }, 200);
         onUpdateUserId("");
 
