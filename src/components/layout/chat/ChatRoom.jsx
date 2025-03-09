@@ -1,120 +1,180 @@
 import { useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import { HOST } from "../../../host";
-import { getMyId, getUsers } from "../../../services/auth";
+import { getMyId } from "../../../services/auth";
 
 export function ChatRoom({ userId, onUpdateUserId, users }) {
   const [myId, setMyId] = useState(null);
-  const [userToChat, setUserToChat] = useState();
+  const [userToChat, setUserToChat] = useState(null);
   const socketRef = useRef(null);
   const [historyChat, setHistoryChat] = useState([]);
+  const messagesEndRef = useRef(null);
 
-
-
+  // Récupération de l'ID utilisateur
   useEffect(() => {
-
-    async function fetchMyId() {
+    const fetchMyId = async () => {
       try {
-        const resId = await getMyId();
-        setMyId(resId.data.userId);
-        const userSearched = users.filter((user) => user._id === userId);
-        console.log(userSearched);
-        setUserToChat(userSearched[0]);
-        console.log(resId.data.userId);
-        console.log(userId);
+        const res = await getMyId();
+        setMyId(res.data.userId);
       } catch (error) {
         console.error("Erreur lors de la récupération de l'ID :", error);
       }
-    }
-    
-
+    };
     fetchMyId();
+  }, []);
 
-    // Création de la connexion socket une seule fois
-    socketRef.current = io(`${HOST}`, { withCredentials: true });
+  // Configuration de l'utilisateur cible
+  useEffect(() => {
+    if (userId && users) {
+      const targetUser = users.find(user => user._id === userId);
+      setUserToChat(targetUser);
+    }
+  }, [userId, users]);
 
-    socketRef.current.on("connect", () => {
-      console.log("Connected to server:", socketRef.current.id);
+  // Gestion des sockets et messages
+  useEffect(() => {
+    if (!myId || !userId) return;
+
+    socketRef.current = io(HOST, {
+      withCredentials: true,
+      reconnectionAttempts: 3,
+      timeout: 5000
     });
 
-    socketRef.current.on("receiveMessage", (data) => {
-      console.log(`Message from ${data.sender}: ${data.message}`);
-      console.log(data.sender);
-      const sender = (users.filter((user) => user._id === data.sender))[0];
-      console.log(sender);
-      setHistoryChat((prevS) => [...prevS, ({ name: sender.name, img_url: sender.img_url, msg: data.message })]);
-      // convertir id en img + name
-    });
+    const socket = socketRef.current;
+
+    const handleConnect = () => {
+      console.log("Connected to socket:", socket.id);
+      socket.emit("joinPrivateChat", myId, userId);
+    };
+
+    const handleMessage = (data) => {
+      setHistoryChat(prev => [
+        ...prev,
+        {
+          senderId: data.sender,
+          message: data.message,
+          timestamp: new Date(data.timestamp),
+          tempId: Date.now() // Pour les messages optimistes
+        }
+      ]);
+    };
+
+    const handleError = (error) => {
+      console.error("Socket error:", error);
+    };
+
+    socket.on("connect", handleConnect);
+    socket.on("receiveMessage", handleMessage);
+    socket.on("connect_error", handleError);
 
     return () => {
-      socketRef.current.disconnect();
+      socket.off("connect", handleConnect);
+      socket.off("receiveMessage", handleMessage);
+      socket.off("connect_error", handleError);
+      socket.disconnect();
     };
-  }, []); // Cette effect se lance une seule fois, lors du premier rendu
+  }, [myId, userId]);
 
-
-
-
+  // Défilement automatique
   useEffect(() => {
-    if (myId && userId) {
-      console.log(`Joining private chat between ${myId} and ${userId}`);
-      joinPrivateChat(myId, userId);
-    }
-  }, [myId, userId]); // Cette effect se lance chaque fois que myId ou userId change
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [historyChat]);
 
-  function joinPrivateChat(userId1, userId2) {
-    const roomId = [userId1, userId2].sort().join("_"); // Assure que les IDs sont toujours dans le même ordre
-    socketRef.current.emit("joinPrivateChat", roomId);
-}
+  const sendMessage = (message) => {
+    if (!message.trim() || !socketRef.current) return;
 
-function sendMessage(sender, receiver, message) {
-  const roomId = [sender, receiver].sort().join("_");
-  socketRef.current.emit("sendMessage", { roomId, sender, message });
-}
+    // Message optimiste
+    const tempMessage = {
+      senderId: myId,
+      message,
+      timestamp: new Date(),
+      tempId: Date.now()
+    };
 
-  function leaveRoom(e) {
+    setHistoryChat(prev => [...prev, tempMessage]);
+
+    socketRef.current.emit("sendMessage", {
+      sender: myId,
+      receiver: userId,
+      message,
+      timestamp: tempMessage.timestamp
+    });
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    onUpdateUserId("");
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    const msg = e.target.message.value;
-    if (msg.trim() === "") return;
-    sendMessage(myId, userId, msg);
+    const message = e.target.message.value.trim();
+    if (!message) return;
+    
+    sendMessage(message);
     e.target.reset();
-  }
+  };
+
+  const leaveRoom = () => {
+    onUpdateUserId("");
+  };
+
+  if (!userToChat) return null;
 
   return (
     <div className="chatRoom">
       <div className="chatRoom__content">
-        <div className="chatRoom__content__header">
-          <div className="chatRoom__content__header--profil">
-            {userToChat && <img src={`${HOST}/api/images/avatars/${userToChat.img_url}.png`} />}
-            {userToChat && <p>{userToChat.name}</p>}
+        <header className="chatRoom__header">
+          <div className="chatRoom__header-profile">
+            <img 
+              src={`${HOST}/api/images/avatars/${userToChat.img_url}.png`} 
+              alt={`Avatar de ${userToChat.name}`}
+            />
+            <div className={`connection-status ${userToChat.isConnected ? "online" : "offline"}`} />
+            <h2>{userToChat.name}</h2>
           </div>
-          <i className="fa-solid fa-xmark leaveRoom" onClick={leaveRoom}></i>
-        </div>
-        <div className="chatRoom__content__chat">
-          {historyChat && historyChat.length > 0 && historyChat.map((cell, index) => (
-            // <p key={index}>{msg}</p>
-            <div key={index}>
-              <div>
-                <img src={`${HOST}/api/images/avatars/${cell.img_url}.png`} /><p>{cell.name}</p>
+          <button 
+            onClick={leaveRoom}
+            aria-label="Fermer la conversation"
+            className="chatRoom__close-button"
+          >
+            <i className="fa-solid fa-xmark" />
+          </button>
+        </header>
+
+        <div className="chatRoom__messages">
+          {historyChat.map((message) => (
+            <div
+              key={message.tempId || message._id}
+              className={`message ${message.senderId === myId ? "sent" : "received"}`}
+            >
+              {message.senderId !== myId && (
+                <img
+                  src={`${HOST}/api/images/avatars/${userToChat.img_url}.png`}
+                  alt={`Avatar de ${userToChat.name}`}
+                  className="message__avatar"
+                />
+              )}
+              <div className="message__content">
+                <p className="message__text">{message.message}</p>
+                <time className="message__time">
+                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </time>
               </div>
-              <p>{cell.msg}</p>
             </div>
           ))}
+          <div ref={messagesEndRef} />
         </div>
-        <div className="chatRoom__content__footer">
-          <form onSubmit={handleSubmit}>
-            <div className="chatRoom__content__footer__input">
-              <textarea name="message" placeholder="Rédigez un message..."></textarea>
-            </div>
-            <div className="chatRoom__content__footer__send">
-              <button type="submit">Envoyer</button>
-            </div>
-          </form>
-        </div>
+
+        <form onSubmit={handleSubmit} className="chatRoom__form">
+          <div className="chatRoom__input-container">
+            <textarea
+              name="message"
+              placeholder="Écrivez votre message..."
+              aria-label="Zone de saisie de message"
+              onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSubmit(e)}
+            />
+            <button type="submit" className="chatRoom__send-button">
+              <i className="fa-solid fa-paper-plane" />
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

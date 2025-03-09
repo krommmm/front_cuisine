@@ -10,18 +10,18 @@ export function ChatList({ users, onUpdateUserId }) {
     }, [users])
 
     function searchUsers(e) {
-        e.preventDefault();
-        const query = e.target.value;
-        const myUsers = users;
-        const usersFiltered = myUsers.filter((user) => user.name.toLowerCase().startsWith(query.toLowerCase()));
-        setDataUsers(usersFiltered);
-    }
+        const query = e.target.value.toLowerCase();
+        setDataUsers(users.filter(user => 
+          user.name.toLowerCase().includes(query) 
+        ));
+      }
+      
 
-    function setUpRoomInfo(e){
-        e.preventDefault();
-        const userId = e.target.dataset.id;
+      function setUpRoomInfo(e){
+        const userId = e.currentTarget.dataset.id; 
         onUpdateUserId(userId);
-    }
+      }
+      
 
     return (
         <div className="chatList">
