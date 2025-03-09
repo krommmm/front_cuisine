@@ -48,6 +48,8 @@ export function ChatList({ users, onUpdateUserId, knock }) {
                             <div className={`chatList__fiche__isConnected userIconnected--${user.isConnected === 0 ? "false" : "true"}`}></div>
                             <p>{user.name}</p>
                         </div>
+                        {console.log(knock)}
+                        {console.log(user._id)}
                         {knock && knock!=="" && knock===user._id && <p>🔔</p>}
                     </div>
                 ))}
