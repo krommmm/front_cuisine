@@ -14,7 +14,7 @@ export function ChatMenu() {
   useEffect(() => {
     setUpMyProfil();
     setUpUsersProfils();
-  }, [emmeteur]);
+  }, [emmeteur,roomTargetUserId]);
 
   async function setUpMyProfil() {
     const res = await getMyProfil();
