@@ -32,9 +32,8 @@ export function ChatRoom({ userId, onUpdateUserId, users }) {
 
     socketRef.current.on("receiveMessage", (data) => {
       console.log(`Message from ${data.sender}: ${data.message}`);
-      const sender = (users.filter((user) => user._id === data.sender))[0];
-      setHistoryChat((prevS) => [...prevS, ({ name: sender.name, img_url: sender.img_url, msg: data.message })]);
-      // convertir id en img + name
+      // const sender = (users.filter((user) => user._id === data.sender))[0];
+      // setHistoryChat((prevS) => [...prevS, ({ name: sender.name, img_url: sender.img_url, msg: data.message })]);
     });
 
     return () => {
@@ -58,6 +57,8 @@ export function ChatRoom({ userId, onUpdateUserId, users }) {
 
   function sendMessage(sender, receiver, message) {
     socketRef.current.emit("sendMessage", { sender, receiver, message });
+    const senderUpdated = (users.filter((user) => user._id === sender))[0];
+    setHistoryChat((prevS) => [...prevS, ({ name: senderUpdated.name, img_url: senderUpdated.img_url, msg: message })]);
   }
 
   function leaveRoom(e) {
