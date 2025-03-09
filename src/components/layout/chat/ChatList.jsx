@@ -1,12 +1,22 @@
 import { HOST } from "../../../host";
 import { useEffect, useState } from "react";
+import { getMyId } from "../../../services/auth"
 
 export function ChatList({ users, onUpdateUserId }) {
 
     const [dataUsers, setDataUsers] = useState([]);
 
     useEffect(() => {
-        setDataUsers(users);
+        // récupérer l'id du user et supprimer son profile de users
+        async function controller(){
+            const resId = await getMyId();
+            const myId = resId.data.userId;
+            const usersWithoutMe = users.filter((user)=>user._id!==myId);
+            console.log(users);
+            setDataUsers(usersWithoutMe);
+        };
+        controller();
+
     }, [users])
 
     function searchUsers(e) {
