@@ -10,6 +10,7 @@ export function ChatMenu() {
   const [users, setUsers] = useState([]);
   const [roomTargetUserId, setRoomTargetUserId] = useState("");
   const [emmeteur, setEmmeteur] = useState("");
+  const [toogle, setToogle] = useState(false);
 
   useEffect(() => {
     setUpMyProfil();
@@ -41,7 +42,7 @@ export function ChatMenu() {
           <ChatBase
             myProfil={myProfil}
             chatMode={chatMode}
-            onUpdateChatMode={setChatMode} 
+            onUpdateChatMode={setChatMode}
           />
         )}
         {users && !chatMode && (
@@ -57,7 +58,7 @@ export function ChatMenu() {
           knock={setEmmeteur}
         />
       ) : (
-      <p></p>
+        <p></p>
       )}
     </div>
   );
