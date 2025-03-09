@@ -66,9 +66,10 @@ export function ChatRoom({ userId, onUpdateUserId, users }) {
     socketRef.current.emit("joinPrivateChat", roomId);
 }
 
-  function sendMessage(sender, receiver, message) {
-    socketRef.current.emit("sendMessage", { sender, receiver, message });
-  }
+function sendMessage(sender, receiver, message) {
+  const roomId = [sender, receiver].sort().join("_");
+  socketRef.current.emit("sendMessage", { roomId, sender, message });
+}
 
   function leaveRoom(e) {
     e.preventDefault();
