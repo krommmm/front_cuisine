@@ -28,8 +28,12 @@ export function ChatList({ users, onUpdateUserId, knock }) {
 
       function setUpRoomInfo(e){
         const userId = e.currentTarget.dataset.id; 
+
+        setTimeout(()=>{
+            onUpdateUserId(userId);
+        },200);
         onUpdateUserId("");
-        onUpdateUserId(userId);
+
       }
       
 
