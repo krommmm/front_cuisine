@@ -74,7 +74,7 @@ export function ChatRoom({ userId, onUpdateUserId, users }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const msg = e.target.message.value;
+    const msg = e.target.message.value; 
     if (msg.trim() === "") return;
     sendMessage(myId, userId, msg);
     e.target.reset();

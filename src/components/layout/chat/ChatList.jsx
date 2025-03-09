@@ -2,7 +2,7 @@ import { HOST } from "../../../host";
 import { useEffect, useState } from "react";
 import { getMyId } from "../../../services/auth"
 
-export function ChatList({ users, onUpdateUserId }) {
+export function ChatList({ users, onUpdateUserId }) { 
 
     const [dataUsers, setDataUsers] = useState([]);
 

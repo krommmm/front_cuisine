@@ -40,7 +40,7 @@ export function ChatMenu() {
           <ChatBase
             myProfil={myProfil}
             chatMode={chatMode}
-            onUpdateChatMode={setChatMode}
+            onUpdateChatMode={setChatMode} 
           />
         )}
         {users && !chatMode && (
