@@ -28,7 +28,7 @@ export function ChatMenu() {
       setUsers(res.data.users);
       // Définir un utilisateur par défaut au premier chargement
       if (res.data.users.length > 0) {
-        setRoomTargetUserId(res.data.users[0]._id); // Utilisateur par défaut
+        setRoomTargetUserId(myProfil._id); // met sa propre id
       }
     }
   }
@@ -48,7 +48,7 @@ export function ChatMenu() {
         )}
       </div>
       {/* Afficher ChatRoom uniquement si roomTargetUserId est défini */}
-      {roomTargetUserId !== "" ? (
+      {roomTargetUserId !== myProfil._id ? (
         <ChatRoom
           userId={roomTargetUserId}
           onUpdateUserId={setRoomTargetUserId}
