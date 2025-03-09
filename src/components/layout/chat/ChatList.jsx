@@ -5,7 +5,7 @@ import { getMyId } from "../../../services/auth"
 export function ChatList({ users, onUpdateUserId }) {
 
     const [dataUsers, setDataUsers] = useState([]);
-    const socketRef = useRef(null);
+
 
     useEffect(() => {
         // récupérer l'id du user et supprimer son profil de users
@@ -31,8 +31,6 @@ export function ChatList({ users, onUpdateUserId }) {
 
         setTimeout(() => {
             onUpdateUserId(userId);
-            // Envoyer une alerte à l'utilisateur ciblé
-            socketRef.current.emit("alertUser", userId);
         }, 200);
         onUpdateUserId("");
 
