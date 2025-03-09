@@ -1,41 +1,61 @@
 import { HOST } from "../../../host";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getMyId } from "../../../services/auth"
 
-export function ChatList({ users, onUpdateUserId, knock }) { 
+export function ChatList({ users, onUpdateUserId, knock }) {
 
     const [dataUsers, setDataUsers] = useState([]);
+    const socketRef = useRef(null);
+    const [alert, setAlert] = useState(false);
 
     useEffect(() => {
         // récupérer l'id du user et supprimer son profil de users
-        async function controller(){
+        async function controller() {
             const resId = await getMyId();
             const myId = resId.data.userId;
-            const usersWithoutMe = users.filter((user)=>user._id!==myId);
+            const usersWithoutMe = users.filter((user) => user._id !== myId);
             console.log(users);
             setDataUsers(usersWithoutMe);
         };
         controller();
-    }, [users])
+    }, [users]);
+
+    useEffect(() => {
+        if (socketRef.current) {
+          socketRef.current.on("receiveAlert", ({ fromUserId }) => {
+            alert(`L'utilisateur ${fromUserId} veut chatter avec toi !`);
+          });
+      
+        
+          return () => {
+            socketRef.current.off("receiveAlert");
+          };
+        }
+      }, []);
 
     function searchUsers(e) {
         const query = e.target.value.toLowerCase();
-        setDataUsers(users.filter(user => 
-          user.name.toLowerCase().includes(query) 
+        setDataUsers(users.filter(user =>
+            user.name.toLowerCase().includes(query)
         ));
-      }
-      
+    }
 
-      function setUpRoomInfo(e){
-        const userId = e.currentTarget.dataset.id; 
 
-        setTimeout(()=>{
+    function setUpRoomInfo(e) {
+        const userId = e.currentTarget.dataset.id;
+
+        setTimeout(() => {
             onUpdateUserId(userId);
-        },200);
+            // Envoyer une alerte à l'utilisateur ciblé
+            if (socketRef.current) {
+                socketRef.current.emit("alertUser", { targetUserId: userId });
+              }
+
+        }, 200);
         onUpdateUserId("");
 
-      }
-      
+    }
+
 
     return (
         <div className="chatList">
@@ -47,7 +67,7 @@ export function ChatList({ users, onUpdateUserId, knock }) {
             </div>
             <div className="chatList__fiches">
                 {dataUsers.map((user, index) => (
-                    <div className="chatList__fiche" key={index} data-id={user._id} onClick={(e)=>setUpRoomInfo(e)}>
+                    <div className="chatList__fiche" key={index} data-id={user._id} onClick={(e) => setUpRoomInfo(e)}>
                         <div className="chatList__fiche__profil">
                             <img src={`${HOST}/api/images/avatars/${user.img_url}.png`} />
                             <div className={`chatList__fiche__isConnected userIconnected--${user.isConnected === 0 ? "false" : "true"}`}></div>
@@ -55,7 +75,7 @@ export function ChatList({ users, onUpdateUserId, knock }) {
                         </div>
                         {console.log(knock)}
                         {console.log(user._id)}
-                        {knock && knock===user._id && <p>🔔</p>}
+                        {knock && knock === user._id && <p>🔔</p>}
                     </div>
                 ))}
             </div>
