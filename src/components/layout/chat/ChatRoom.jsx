@@ -47,25 +47,6 @@ export function ChatRoom({ userId, onUpdateUserId, users, knock }) {
     };
   }, []); // Cette effect se lance une seule fois, lors du premier rendu
   
-  useEffect(() => {
-    if (socketRef.current) {
-      socketRef.current.on("receiveAlert", ({ fromUserId }) => {
-        alert(`L'utilisateur ${fromUserId} veut chatter avec toi !`);
-        console.log("un utilistaeur veut discuter av toi ")
-      });
-  
-    
-      return () => {
-        socketRef.current.off("receiveAlert");
-      };
-    }
-  }, []);
-
-  useEffect(() => {
-    if (socketRef.current && myId) {
-      socketRef.current.emit("registerUser", myId);
-    }
-  }, [myId]);
 
   useEffect(() => {
     if (myId && userId) {
