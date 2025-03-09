@@ -9,7 +9,10 @@ export function ChatRoom({ userId, onUpdateUserId, users }) {
   const socketRef = useRef(null);
   const [historyChat, setHistoryChat] = useState([]);
 
+
+
   useEffect(() => {
+
     async function fetchMyId() {
       try {
         const resId = await getMyId();
@@ -23,6 +26,7 @@ export function ChatRoom({ userId, onUpdateUserId, users }) {
         console.error("Erreur lors de la récupération de l'ID :", error);
       }
     }
+    
 
     fetchMyId();
 
@@ -58,8 +62,9 @@ export function ChatRoom({ userId, onUpdateUserId, users }) {
   }, [myId, userId]); // Cette effect se lance chaque fois que myId ou userId change
 
   function joinPrivateChat(userId1, userId2) {
-    socketRef.current.emit("joinPrivateChat", userId1, userId2);
-  }
+    const roomId = [userId1, userId2].sort().join("_"); // Assure que les IDs sont toujours dans le même ordre
+    socketRef.current.emit("joinPrivateChat", roomId);
+}
 
   function sendMessage(sender, receiver, message) {
     socketRef.current.emit("sendMessage", { sender, receiver, message });
@@ -80,7 +85,6 @@ export function ChatRoom({ userId, onUpdateUserId, users }) {
 
   return (
     <div className="chatRoom">
-      {console.log(historyChat)}
       <div className="chatRoom__content">
         <div className="chatRoom__content__header">
           <div className="chatRoom__content__header--profil">
