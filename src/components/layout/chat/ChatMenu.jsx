@@ -28,7 +28,7 @@ export function ChatMenu() {
       setUsers(res.data.users);
       // Définir un utilisateur par défaut au premier chargement
       if (res.data.users.length > 0) {
-        setRoomTargetUserId(res.data.users[0]._id); // Utilisateur par défaut
+        setRoomTargetUserId(""); // Utilisateur par défaut
       }
     }
   }
