@@ -105,7 +105,7 @@ export function ChatRoom({ userId, onUpdateUserId, users }) {
         <div className="chatRoom__content__footer">
           <form onSubmit={handleSubmit}>
             <div className="chatRoom__content__footer__input">
-              <textarea name="message" placeholder="Rédigez un message..."></textarea>
+              <input type="text" name="message" placeholder="Rédigez un message..."/>
             </div>
             <div className="chatRoom__content__footer__send">
               <button type="submit">Envoyer</button>
