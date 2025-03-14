@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChatBase } from "./ChatBase";
 import { ChatRoom } from "./ChatRoom";
 import { ChatList } from "./ChatList";
 import { getMyProfil, getUsers } from "../../../services/auth";
+import { io } from "socket.io-client";
+import { HOST } from "../../../host";
 
 export function ChatMenu() {
   const [chatMode, setChatMode] = useState(true);
@@ -10,11 +12,28 @@ export function ChatMenu() {
   const [users, setUsers] = useState([]);
   const [roomTargetUserId, setRoomTargetUserId] = useState("");
   const [whosCalled, setWhosCalled] = useState([]);
+  const socketRef = useRef(null);
+  socketRef.current = io(`${HOST}`, { withCredentials: true });
 
   useEffect(() => {
     setUpMyProfil();
     setUpUsersProfils();
+
   }, []);
+
+  useEffect(()=>{
+    connectToSocket();
+  },[users]);
+
+  async function connectToSocket() {
+    await socketRef.current.on("connect", () => {
+      console.log("Connected to server:", socketRef.current.id);
+    });
+
+    return () => {
+      socketRef.current.disconnect();
+    };
+  }
 
   async function setUpMyProfil() {
     const res = await getMyProfil();

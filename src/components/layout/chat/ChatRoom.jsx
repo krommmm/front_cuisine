@@ -7,7 +7,7 @@ export function ChatRoom({ userId, onUpdateUserId, users, onUpdateWhosCalled}) {
   const [myId, setMyId] = useState(null);
   const [userToChat, setUserToChat] = useState();
   const socketRef = useRef(null);
-  const [historyChat, setHistoryChat] = useState([]);
+  const [historyChat, setHistoryChat] = useState([]); 
 
   useEffect(() => {
     // Création de la connexion socket une seule fois
