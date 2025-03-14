@@ -19,7 +19,7 @@ export function ChatRoom({ userId, onUpdateUserId, users, onUpdateWhosCalled}) {
         setMyId(resId.data.userId);
         const userSearched = users.filter((user) => user._id === userId);
         setUserToChat(userSearched[0]);
-        socketRef.current.emit('setUserId', resId.data.userId);
+        // socketRef.current.emit('setUserId', resId.data.userId);
       } catch (error) {
         console.error("Erreur lors de la récupération de l'ID :", error);
       }
