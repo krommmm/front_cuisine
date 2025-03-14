@@ -37,26 +37,26 @@ export function ChatRoom({ userId, onUpdateUserId, users, onUpdateWhosCalled}) {
       setHistoryChat((prevS) => [...prevS, ({ name: sender.name, img_url: sender.img_url, msg: data.message })]);
     });
 
-    socketRef.current.on('notificationAuCopain', (room, copain) => {
-      console.log(`${copain} vous a invité sur la room ${room}`);
-      console.log("invitation du copain");
+    // socketRef.current.on('notificationAuCopain', (room, copain) => {
+    //   console.log(`${copain} vous a invité sur la room ${room}`);
+    //   console.log("invitation du copain");
 
-      if (users.length <= 0) {
-        console.log("Les utilisateurs ne sont pas encore chargés !");
-        return;
-      }
+    //   if (users.length <= 0) {
+    //     console.log("Les utilisateurs ne sont pas encore chargés !");
+    //     return;
+    //   }
 
-      let allUsers = JSON.parse(JSON.stringify(users)); // Copie de l'état actuel des utilisateurs
-      let receiver = allUsers.find((user) => user._id === copain);
-      if (receiver && receiver._id === copain) {
-        receiver.isCalled = true;
-        onUpdateWhosCalled(allUsers);
-      }
-    });
+    //   let allUsers = JSON.parse(JSON.stringify(users)); // Copie de l'état actuel des utilisateurs
+    //   let receiver = allUsers.find((user) => user._id === copain);
+    //   if (receiver && receiver._id === copain) {
+    //     receiver.isCalled = true;
+    //     onUpdateWhosCalled(allUsers);
+    //   }
+    // });
 
-    socketRef.current.on('cleanAlert', ()=>{
-      onUpdateWhosCalled([]);
-    });
+    // socketRef.current.on('cleanAlert', ()=>{
+    //   onUpdateWhosCalled([]);
+    // });
 
 
 
