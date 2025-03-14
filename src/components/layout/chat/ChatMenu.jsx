@@ -5,6 +5,7 @@ import { ChatList } from "./ChatList";
 import { getMyProfil, getUsers } from "../../../services/auth";
 import { io } from "socket.io-client";
 import { HOST } from "../../../host";
+import { getMyId } from "../../../services/auth";
 
 export function ChatMenu() {
   const [chatMode, setChatMode] = useState(true);
@@ -12,23 +13,47 @@ export function ChatMenu() {
   const [users, setUsers] = useState([]);
   const [roomTargetUserId, setRoomTargetUserId] = useState("");
   const [whosCalled, setWhosCalled] = useState([]);
+  const [myId, setMyId] = useState(null);
+  const [userToChat, setUserToChat] = useState();
+  const [historyChat, setHistoryChat] = useState([]);
+  const [message, setMessage] = useState("");
   const socketRef = useRef(null);
-  socketRef.current = io(`${HOST}`, { withCredentials: true });
 
   useEffect(() => {
-    setUpMyProfil();
-    setUpUsersProfils();
-
+    async function init() {
+      await setUpMyProfil();
+      const myUsers = await setUpUsersProfils();
+      setUpSocket(myUsers);
+    };
+    init();
   }, []);
 
-  useEffect(()=>{
-    connectToSocket();
-  },[users]);
+  async function setUpSocket() {
 
-  async function connectToSocket() {
+    // Création de la connexion socket une seule fois
+    socketRef.current = io(`${HOST}`, { withCredentials: true });
 
-    await socketRef.current.on("connect", () => {
+    async function fetchMyId() {
+      try {
+        const resId = await getMyId();
+
+        setMyId(resId.data.userId);
+        socketRef.current.emit('setUserId', resId.data.userId);
+      } catch (error) {
+        console.error("Erreur lors de la récupération de l'ID :", error);
+      }
+    }
+
+    fetchMyId();
+
+    socketRef.current.on("connect", () => {
       console.log("Connected to server:", socketRef.current.id);
+    });
+
+    socketRef.current.on("receiveMessage", (data) => {
+      console.log(`Message from ${data.sender}: ${data.message}`);
+      const sender = (users.filter((user) => user._id === data.sender))[0];
+      setHistoryChat((prevS) => [...prevS, ({ name: sender.name, img_url: sender.img_url, msg: data.message })]);
     });
 
     socketRef.current.on('notificationAuCopain', (room, copain) => {
@@ -48,14 +73,41 @@ export function ChatMenu() {
       }
     });
 
-    socketRef.current.on('cleanAlert', ()=>{
+    socketRef.current.on('cleanAlert', () => {
       setWhosCalled([]);
     });
 
+    
     return () => {
       socketRef.current.disconnect();
     };
+  }; // Cette effect se lance une seule fois, lors du premier rendu
+
+
+  useEffect(()=>{
+    findTargetedUser();
+  },[roomTargetUserId]);
+
+  function findTargetedUser() {
+    const userSearched = users.filter((user) => user._id === roomTargetUserId);
+    setUserToChat(userSearched[0]);
   }
+
+  useEffect(() => {
+    if (myId && roomTargetUserId) {
+      console.log(`Joining private chat between ${myId} and ${roomTargetUserId}`);
+      joinPrivateChat(myId, roomTargetUserId);
+    }
+  }, [myId, roomTargetUserId]); // Cette effect se lance chaque fois que myId ou userId change
+
+  function joinPrivateChat(userId1, userId2) {
+    socketRef.current.emit("joinPrivateChat", userId1, userId2);
+  }
+
+  function sendMessage(sender, receiver, message) {
+    socketRef.current.emit("sendMessage", { sender, receiver, message });
+  }
+
 
   async function setUpMyProfil() {
     const res = await getMyProfil();
@@ -64,13 +116,20 @@ export function ChatMenu() {
     }
   }
 
+  useEffect(() => {
+    if (socketRef.current && myId && roomTargetUserId && message) {
+      sendMessage(myId, roomTargetUserId, message);
+    }
+  }, [message]);
+
   async function setUpUsersProfils() {
     const res = await getUsers();
+
     if (res.ok) {
       setUsers(res.data.users);
-
       if (res.data.users.length > 0) {
         setRoomTargetUserId("");
+        return res.data.users;
       }
     }
   }
@@ -95,6 +154,9 @@ export function ChatMenu() {
           onUpdateUserId={setRoomTargetUserId}
           users={users}
           onUpdateWhosCalled={setWhosCalled}
+          historyChat={historyChat}
+          onUpdateMessage={setMessage}
+          userToChat={userToChat}
         />
       ) : (
         <p></p>

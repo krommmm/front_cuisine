@@ -1,89 +1,10 @@
-import { useState, useEffect, useRef } from "react";
-import { io } from "socket.io-client";
 import { HOST } from "../../../host";
-import { getMyId } from "../../../services/auth";
 
-export function ChatRoom({ userId, onUpdateUserId, users, onUpdateWhosCalled}) {
-  const [myId, setMyId] = useState(null);
-  const [userToChat, setUserToChat] = useState();
-  const socketRef = useRef(null);
-  const [historyChat, setHistoryChat] = useState([]); 
-
-  useEffect(() => {
-    // Création de la connexion socket une seule fois
-    socketRef.current = io(`${HOST}`, { withCredentials: true });
-
-    async function fetchMyId() {
-      try {
-        const resId = await getMyId();
-        setMyId(resId.data.userId);
-        const userSearched = users.filter((user) => user._id === userId);
-        setUserToChat(userSearched[0]);
-        // socketRef.current.emit('setUserId', resId.data.userId);
-      } catch (error) {
-        console.error("Erreur lors de la récupération de l'ID :", error);
-      }
-    }
-
-    fetchMyId();
-
-    // socketRef.current.on("connect", () => {
-    //   console.log("Connected to server:", socketRef.current.id);
-    // });
-
-    socketRef.current.on("receiveMessage", (data) => {
-      console.log(`Message from ${data.sender}: ${data.message}`);
-      const sender = (users.filter((user) => user._id === data.sender))[0];
-      setHistoryChat((prevS) => [...prevS, ({ name: sender.name, img_url: sender.img_url, msg: data.message })]);
-    });
-
-    // socketRef.current.on('notificationAuCopain', (room, copain) => {
-    //   console.log(`${copain} vous a invité sur la room ${room}`);
-    //   console.log("invitation du copain");
-
-    //   if (users.length <= 0) {
-    //     console.log("Les utilisateurs ne sont pas encore chargés !");
-    //     return;
-    //   }
-
-    //   let allUsers = JSON.parse(JSON.stringify(users)); // Copie de l'état actuel des utilisateurs
-    //   let receiver = allUsers.find((user) => user._id === copain);
-    //   if (receiver && receiver._id === copain) {
-    //     receiver.isCalled = true;
-    //     onUpdateWhosCalled(allUsers);
-    //   }
-    // });
-
-    // socketRef.current.on('cleanAlert', ()=>{
-    //   onUpdateWhosCalled([]);
-    // });
-
-
-
-    return () => {
-      socketRef.current.disconnect();
-    };
-  }, []); // Cette effect se lance une seule fois, lors du premier rendu
-
-  useEffect(() => {
-    if (myId && userId) {
-      console.log(`Joining private chat between ${myId} and ${userId}`);
-      joinPrivateChat(myId, userId);
-    }
-  }, [myId, userId]); // Cette effect se lance chaque fois que myId ou userId change
-
-
-
-  function joinPrivateChat(userId1, userId2) {
-    socketRef.current.emit("joinPrivateChat", userId1, userId2);
-  }
-
-  function sendMessage(sender, receiver, message) {
-    socketRef.current.emit("sendMessage", { sender, receiver, message });
-  }
+export function ChatRoom({ onUpdateUserId, historyChat, onUpdateMessage, userToChat }) {
 
   function leaveRoom(e) {
     e.preventDefault();
+    // onUpdateUserId("");
     onUpdateUserId("");
   }
 
@@ -91,7 +12,8 @@ export function ChatRoom({ userId, onUpdateUserId, users, onUpdateWhosCalled}) {
     e.preventDefault();
     const msg = e.target.message.value;
     if (msg.trim() === "") return;
-    sendMessage(myId, userId, msg);
+    // sendMessage(myId, userId, msg);
+    onUpdateMessage(msg);
     e.target.reset();
   }
 
@@ -106,7 +28,7 @@ export function ChatRoom({ userId, onUpdateUserId, users, onUpdateWhosCalled}) {
           <i className="fa-solid fa-xmark leaveRoom" onClick={leaveRoom}></i>
         </div>
         <div className="chatRoom__content__chat">
-          {historyChat && historyChat.length > 0 && historyChat.map((cell, index) => (
+          {historyChat && historyChat.length > 0 && historyChat.map((cell) => (
             // <p key={index}>{msg}</p>
             <div key={cell._id}>
               <div>
