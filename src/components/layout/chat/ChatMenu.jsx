@@ -35,9 +35,9 @@ export function ChatMenu() {
     const resId = await getMyId();
     socketRef.current.emit('setUserId', resId.data.userId);
 
-    socketRef.current.on('notificationAuCopain', (room, copain) => {
+    socketRef.current.on('notificationAuCopain', (room, copain, moi) => {
       console.log(`${copain} vous a invité sur la room ${room}`);
-      console.log(`invitation du copain ${copain}`);
+      console.log(`invitation du copain ${copain} à vous(${moi})`);
 
       if (users.length <= 0) {
         console.log("Les utilisateurs ne sont pas encore chargés !");
