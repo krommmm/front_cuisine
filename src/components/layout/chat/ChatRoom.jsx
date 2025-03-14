@@ -27,9 +27,9 @@ export function ChatRoom({ userId, onUpdateUserId, users, onUpdateWhosCalled}) {
 
     fetchMyId();
 
-    socketRef.current.on("connect", () => {
-      console.log("Connected to server:", socketRef.current.id);
-    });
+    // socketRef.current.on("connect", () => {
+    //   console.log("Connected to server:", socketRef.current.id);
+    // });
 
     socketRef.current.on("receiveMessage", (data) => {
       console.log(`Message from ${data.sender}: ${data.message}`);
