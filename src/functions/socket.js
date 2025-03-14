@@ -1,6 +1,7 @@
 import { io } from "socket.io-client";
+import { HOST } from "../host";
 
-const socket = io("http://localhost:1892"); // connexion au server websocket
-
-
-export { socket };
+export const socket = io(HOST, {
+    withCredentials: true,
+    autoConnect: false // On va gérer la connexion manuellement
+  });

@@ -1,11 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { ChatBase } from "./ChatBase";
 import { ChatRoom } from "./ChatRoom";
 import { ChatList } from "./ChatList";
 import { getMyProfil, getUsers } from "../../../services/auth";
-import { io } from "socket.io-client";
-import { HOST } from "../../../host";
 import { getMyId } from "../../../services/auth";
+import { socket } from "../../../functions/socket";
 
 export function ChatMenu() {
   const [chatMode, setChatMode] = useState(true);
@@ -17,76 +16,112 @@ export function ChatMenu() {
   const [userToChat, setUserToChat] = useState();
   const [historyChat, setHistoryChat] = useState([]);
   const [message, setMessage] = useState("");
-  const socketRef = useRef(null);
 
   useEffect(() => {
     async function init() {
+      await setUpUsersProfils();
       await setUpMyProfil();
-      const myUsers = await setUpUsersProfils();
-      setUpSocket(myUsers);
+      fetchMyId();
     };
     init();
-  }, []);
+  }, [])
 
-  async function setUpSocket() {
-
-    // Création de la connexion socket une seule fois
-    socketRef.current = io(`${HOST}`, { withCredentials: true });
-
-    async function fetchMyId() {
-      try {
-        const resId = await getMyId();
-
-        setMyId(resId.data.userId);
-        socketRef.current.emit('setUserId', resId.data.userId);
-      } catch (error) {
-        console.error("Erreur lors de la récupération de l'ID :", error);
-      }
+  async function fetchMyId() {
+    try {
+      const resId = await getMyId();
+      setMyId(resId.data.userId);
+    } catch (error) {
+      console.error("Erreur lors de la récupération de l'ID :", error);
     }
+  }
 
-    fetchMyId();
+  // partie socket
+  useEffect(() => {
+    socket.connect();
 
-    socketRef.current.on("connect", () => {
-      console.log("Connected to server:", socketRef.current.id);
+    socket.on("connect", () => {
+      console.log("✅ Connecté au serveur WebSocket avec ID :", socket.id);
     });
 
-    socketRef.current.on("receiveMessage", (data) => {
+    socket.on("disconnect", () => {
+      console.log("❌ Déconnecté du serveur WebSocket");
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("disconnect");
+    };
+  }, []);
+
+
+  useEffect(() => {
+    socket.emit('setUserId', myId);
+  }, [myId]);
+
+  useEffect(() => {
+    socket.on("receiveMessage", async (data) => {
+      const myUsersRes = await getUsers();
+      const myUsers = myUsersRes.data.users;
       console.log(`Message from ${data.sender}: ${data.message}`);
-      const sender = (users.filter((user) => user._id === data.sender))[0];
+      const sender = (myUsers.filter((user) => user._id === data.sender))[0];
       setHistoryChat((prevS) => [...prevS, ({ name: sender.name, img_url: sender.img_url, msg: data.message })]);
     });
 
-    socketRef.current.on('notificationAuCopain', (room, copain) => {
+    return () => {
+      socket.off("receiveMessage");
+    };
+  }, []);
+
+
+  useEffect(() => {
+    socket.on('notificationAuCopain', (room, copain) => {
       console.log(`${copain} vous a invité sur la room ${room}`);
       console.log("invitation du copain");
 
-      if (users.length <= 0) {
-        console.log("Les utilisateurs ne sont pas encore chargés !");
-        return;
-      }
 
-      let allUsers = JSON.parse(JSON.stringify(users)); // Copie de l'état actuel des utilisateurs
-      let receiver = allUsers.find((user) => user._id === copain);
-      if (receiver && receiver._id === copain) {
-        receiver.isCalled = true;
-        setWhosCalled(allUsers);
+      async function indiquerQuiAppel() {
+        const myUsersRes = await getUsers();
+        const myUsers = myUsersRes.data.users;
+        if (myUsers.length <= 0) {
+          console.log("Les utilisateurs ne sont pas encore chargés !");
+          return;
+        }
+
+        let allUsers = JSON.parse(JSON.stringify(myUsers)); // Copie de l'état actuel des utilisateurs
+        let receiver = allUsers.find((user) => user._id === copain);
+        if (receiver && receiver._id === copain) {
+          receiver.isCalled = true;
+          setWhosCalled(allUsers);
+        }
       }
+      indiquerQuiAppel();
+
+
     });
 
-    socketRef.current.on('cleanAlert', () => {
-      setWhosCalled([]);
-    });
-
-    
     return () => {
-      socketRef.current.disconnect();
+      socket.off("notificationAuCopain");
     };
-  }; // Cette effect se lance une seule fois, lors du premier rendu
+  }, []);
 
 
-  useEffect(()=>{
+  useEffect(() => {
+    socket.on('cleanAlert', () => {
+      setWhosCalled([]);
+      console.log("users cleaned")
+    });
+
+    return () => {
+      socket.off("cleanAlert");
+    };
+  }, []);
+
+
+
+
+  useEffect(() => {
     findTargetedUser();
-  },[roomTargetUserId]);
+  }, [roomTargetUserId]);
 
   function findTargetedUser() {
     const userSearched = users.filter((user) => user._id === roomTargetUserId);
@@ -97,16 +132,24 @@ export function ChatMenu() {
     if (myId && roomTargetUserId) {
       console.log(`Joining private chat between ${myId} and ${roomTargetUserId}`);
       joinPrivateChat(myId, roomTargetUserId);
+      setHistoryChat([]);
     }
   }, [myId, roomTargetUserId]); // Cette effect se lance chaque fois que myId ou userId change
 
+
   function joinPrivateChat(userId1, userId2) {
-    socketRef.current.emit("joinPrivateChat", userId1, userId2);
+    socket.emit("joinPrivateChat", userId1, userId2);
   }
 
   function sendMessage(sender, receiver, message) {
-    socketRef.current.emit("sendMessage", { sender, receiver, message });
+    socket.emit("sendMessage", { sender, receiver, message });
   }
+
+  useEffect(() => {
+    if (socket && myId && roomTargetUserId && message) {
+      sendMessage(myId, roomTargetUserId, message);
+    }
+  }, [message]);
 
 
   async function setUpMyProfil() {
@@ -116,12 +159,6 @@ export function ChatMenu() {
     }
   }
 
-  useEffect(() => {
-    if (socketRef.current && myId && roomTargetUserId && message) {
-      sendMessage(myId, roomTargetUserId, message);
-    }
-  }, [message]);
-
   async function setUpUsersProfils() {
     const res = await getUsers();
 
@@ -129,7 +166,6 @@ export function ChatMenu() {
       setUsers(res.data.users);
       if (res.data.users.length > 0) {
         setRoomTargetUserId("");
-        return res.data.users;
       }
     }
   }

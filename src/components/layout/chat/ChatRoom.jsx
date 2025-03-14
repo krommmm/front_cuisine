@@ -28,9 +28,9 @@ export function ChatRoom({ onUpdateUserId, historyChat, onUpdateMessage, userToC
           <i className="fa-solid fa-xmark leaveRoom" onClick={leaveRoom}></i>
         </div>
         <div className="chatRoom__content__chat">
-          {historyChat && historyChat.length > 0 && historyChat.map((cell) => (
+          {historyChat && historyChat.length > 0 && historyChat.map((cell,index) => (
             // <p key={index}>{msg}</p>
-            <div key={cell._id}>
+            <div key={index}>
               <div>
                 <img src={`${HOST}/api/images/avatars/${cell.img_url}.png`} /><p>{cell.name}</p>
               </div>
