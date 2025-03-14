@@ -5,7 +5,6 @@ import { ChatList } from "./ChatList";
 import { getMyProfil, getUsers } from "../../../services/auth";
 import { io } from "socket.io-client";
 import { HOST } from "../../../host";
-import { getMyId } from "../../../services/auth";
 
 export function ChatMenu() {
   const [chatMode, setChatMode] = useState(true);
@@ -22,9 +21,9 @@ export function ChatMenu() {
 
   }, []);
 
-  useEffect(() => {
+  useEffect(()=>{
     connectToSocket();
-  }, [users]);
+  },[users]);
 
   async function connectToSocket() {
 
@@ -32,12 +31,9 @@ export function ChatMenu() {
       console.log("Connected to server:", socketRef.current.id);
     });
 
-    const resId = await getMyId();
-    socketRef.current.emit('setUserId', resId.data.userId);
-
-    socketRef.current.on('notificationAuCopain', (room, copain, moi) => {
+    socketRef.current.on('notificationAuCopain', (room, copain) => {
       console.log(`${copain} vous a invité sur la room ${room}`);
-      console.log(`invitation du copain ${copain} à vous(${moi})`);
+      console.log("invitation du copain");
 
       if (users.length <= 0) {
         console.log("Les utilisateurs ne sont pas encore chargés !");
@@ -52,7 +48,7 @@ export function ChatMenu() {
       }
     });
 
-    socketRef.current.on('cleanAlert', () => {
+    socketRef.current.on('cleanAlert', ()=>{
       setWhosCalled([]);
     });
 
