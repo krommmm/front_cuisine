@@ -9,6 +9,7 @@ export function ChatMenu() {
   const [myProfil, setMyProfil] = useState({});
   const [users, setUsers] = useState([]);
   const [roomTargetUserId, setRoomTargetUserId] = useState("");
+  const [whosCalled, setWhosCalled] = useState([]);
 
   useEffect(() => {
     setUpMyProfil();
@@ -44,7 +45,7 @@ export function ChatMenu() {
           />
         )}
         {users && !chatMode && (
-          <ChatList users={users} onUpdateUserId={setRoomTargetUserId} />
+          <ChatList users={users} onUpdateUserId={setRoomTargetUserId} whosCalled={whosCalled} />
         )}
       </div>
       {roomTargetUserId !== "" ? (
@@ -52,6 +53,7 @@ export function ChatMenu() {
           userId={roomTargetUserId}
           onUpdateUserId={setRoomTargetUserId}
           users={users}
+          onUpdateWhosCalled={setWhosCalled}
         />
       ) : (
         <p></p>

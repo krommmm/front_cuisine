@@ -3,12 +3,10 @@ import "./assets/css/index.css";
 import { Home } from "./pages/home/Home";
 import { Header } from "./components/layout/header/Header";
 import { Footer } from "./components/layout/Footer";
-
 import { RecipesPage } from "./pages/Recipes/RecipesPage";
 import { Favorites } from "./pages/favorites/Favorites";
 import { Books } from "./pages/books/Books";
 import { Blog } from "./pages/blog/Blog";
-import { Users } from "./pages/users/Users";
 import { Create } from "./pages/create/create";
 import { Profil } from "./pages/profil/Profil";
 import { Auth } from "./pages/auth/Auth";
@@ -48,7 +46,6 @@ function App() {
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/books" element={<Books />} />
           <Route path="/blog" element={<Blog />} />
-          {state.isConnected && <Route path="/users" element={<Users />} />}
           {state.isConnected && <Route path="/create" element={<Create />} />}
           <Route path="/profil" element={<Profil />} />
           <Route path="/auth" element={<Auth />} />

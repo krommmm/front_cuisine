@@ -37,10 +37,6 @@ export function MobileNavigation() {
           <i className="fa-solid fa-newspaper"></i>
           <p>Blog</p>
         </NavLink>
-        {state.isConnected && <NavLink to="/users" className={({ isActive }) => isActive ? "mobileMenuActive" : ""} onClick={(e) => leaveNav(e)}>
-          <i className="fa-solid fa-users-line"></i>
-          <p>Users</p>
-        </NavLink>}
         {state.isConnected && <NavLink to="/create?form-create-etape=1" className={({ isActive }) => isActive ? "mobileMenuActive" : ""} onClick={(e) => leaveNav(e)}>
           <i className="fa-solid fa-square-plus"></i>
           <p>Create</p>

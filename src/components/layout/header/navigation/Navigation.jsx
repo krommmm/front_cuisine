@@ -33,7 +33,6 @@ export function Navigation() {
                     <NavLink to="/favorites" className={({ isActive }) => isActive ? "menuIsActive" : ""}><li>Favoris</li></NavLink>
                     <NavLink to="/books" className={({ isActive }) => isActive ? "menuIsActive" : ""}><li>Livres</li></NavLink>
                     <NavLink to="/blog" className={({ isActive }) => isActive ? "menuIsActive" : ""}><li>Blog</li></NavLink>
-                    {state.isConnected && <NavLink to="/users" className={({ isActive }) => isActive ? "menuIsActive" : ""}><li>Users</li></NavLink>}
                     {state.isConnected && <NavLink to="/create?form-create-etape=1" className={({ isActive }) => isActive ? "menuIsActive" : ""}><li>Create</li></NavLink>}
                 </ul>
             </div>

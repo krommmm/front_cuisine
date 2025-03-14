@@ -6,7 +6,7 @@ export function ChatBase({ myProfil, chatMode, onUpdateChatMode }) {
 
     function openChatList(e) {
         onUpdateChatMode((prev) => !prev);
-    }
+    } 
 
     return (
         <div className="chatBase">

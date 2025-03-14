@@ -2,7 +2,7 @@ import { HOST } from "../../../host";
 import { useEffect, useState, useRef } from "react";
 import { getMyId } from "../../../services/auth"
 
-export function ChatList({ users, onUpdateUserId }) {
+export function ChatList({ users, onUpdateUserId, whosCalled }) {
 
     const [dataUsers, setDataUsers] = useState([]);
 
@@ -10,7 +10,7 @@ export function ChatList({ users, onUpdateUserId }) {
     useEffect(() => {
         // récupérer l'id du user et supprimer son profil de users
         async function controller() {
-            const resId = await getMyId();
+            const resId = await getMyId(); 
             const myId = resId.data.userId;
             const usersWithoutMe = users.filter((user) => user._id !== myId);
             setDataUsers(usersWithoutMe);
@@ -39,6 +39,7 @@ export function ChatList({ users, onUpdateUserId }) {
 
     return (
         <div className="chatList">
+
             <div className="chatList__searchBar">
                 <form>
                     <input type="text" placeholder="Rechercher" onChange={(e) => searchUsers(e)} />
@@ -46,7 +47,8 @@ export function ChatList({ users, onUpdateUserId }) {
                 </form>
             </div>
             <div className="chatList__fiches">
-                {dataUsers.map((user, index) => (
+
+                {whosCalled.length<=0? (dataUsers.map((user, index) => (
                     <div className="chatList__fiche" key={index} data-id={user._id} onClick={(e) => setUpRoomInfo(e)}>
                         <div className="chatList__fiche__profil">
                             <img src={`${HOST}/api/images/avatars/${user.img_url}.png`} />
@@ -54,7 +56,18 @@ export function ChatList({ users, onUpdateUserId }) {
                             <p>{user.name}</p>
                         </div>
                     </div>
-                ))}
+                ))) : (whosCalled.map((user, index) => (
+                    <div className="chatList__fiche" key={index} data-id={user._id} onClick={(e) => setUpRoomInfo(e)}>
+                        <div className="chatList__fiche__profil">
+                            <img src={`${HOST}/api/images/avatars/${user.img_url}.png`} />
+                            <div className={`chatList__fiche__isConnected userIconnected--${user.isConnected === 0 ? "false" : "true"}`}></div>
+                            <p>{user.name}</p>
+                            {user.isCalled && <p className="chatList__fiche__alert">🔔</p>}
+                        </div>
+                    </div>
+                )))}
+
+     
             </div>
         </div>
     );
