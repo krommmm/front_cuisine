@@ -37,5 +37,8 @@
 /* chat */
 @import "./chat/chat.css";
 
+/* recipes by search */
+@import "./recipesBySearch/recipeBySearch.css";
+
 /* media queries */
 @import "./@mediaQueries.css";

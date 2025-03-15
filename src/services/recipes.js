@@ -98,9 +98,6 @@ export async function updateRecipe(recipeId, data) {
     }
 }
 
-// router.put("/:id/tags/:tagId"
-
-
 export async function updateTag(recipeId, tagId, data) {
 
     try {
@@ -271,3 +268,66 @@ export async function createStep(recipeId, data) {
         console.error(err);
     }
 }
+
+
+export async function getCountOfRecipesByUserId(userId) {
+    try {
+        const preRes = await fetch(`${HOST}/api/recipe/getCountOfRecipesByUserId/${userId}`, {
+            method: "GET",
+            credentials: 'include',
+            headers: {
+                "Accept": "application/json",
+            },
+        });
+        const res = await preRes.json();
+        return {
+            status: preRes.status,
+            ok: preRes.ok,
+            data: res
+        };
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+
+export async function getMostFavRecipe(userId) {
+    try {
+        const preRes = await fetch(`${HOST}/api/recipe/getMostFavRecipe/${userId}`, {
+            method: "GET",
+            credentials: 'include',
+            headers: {
+                "Accept": "application/json",
+            },
+        });
+        const res = await preRes.json();
+        return {
+            status: preRes.status,
+            ok: preRes.ok,
+            data: res
+        };
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+export async function getRecipesByResearch(research) {
+    try {
+        const preRes = await fetch(`${HOST}/api/recipe/getRecipesByResearch/${research}`, {
+            method: "GET",
+            credentials: 'include',
+            headers: {
+                "Accept": "application/json",
+            },
+        });
+        const res = await preRes.json();
+        return {
+            status: preRes.status,
+            ok: preRes.ok,
+            data: res
+        };
+    } catch (err) {
+        console.error(err);
+    }
+};
+

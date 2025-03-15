@@ -22,7 +22,7 @@ export function ChatRoom({ onUpdateUserId, historyChat, onUpdateMessage, userToC
       <div className="chatRoom__content">
         <div className="chatRoom__content__header">
           <div className="chatRoom__content__header--profil">
-            {userToChat && <img src={`${HOST}/api/images/avatars/${userToChat.img_url}.png`} />}
+            {userToChat && <img src={`${HOST}/api/images/avatars/${userToChat.img_url}`} />}
             {userToChat && <p>{userToChat.name}</p>}
           </div>
           <i className="fa-solid fa-xmark leaveRoom" onClick={leaveRoom}></i>
@@ -32,7 +32,7 @@ export function ChatRoom({ onUpdateUserId, historyChat, onUpdateMessage, userToC
             // <p key={index}>{msg}</p>
             <div key={index}>
               <div>
-                <img src={`${HOST}/api/images/avatars/${cell.img_url}.png`} /><p>{cell.name}</p>
+                <img src={`${HOST}/api/images/avatars/${cell.img_url}`} /><p>{cell.name}</p>
               </div>
               <p>{cell.msg}</p>
             </div>

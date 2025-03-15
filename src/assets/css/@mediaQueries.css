@@ -59,6 +59,32 @@
     }
 }
 
+
+@media screen and (max-width: 650px) {
+    html .chatRoom {
+        width: 320px;
+        right: 0px;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    html .profil__content__data__body {
+        flex-direction: column;
+    }
+
+    html .profil__content__data__body {
+        margin-right: 0px;
+    }
+
+    html .profil__content__data__body>div {
+        margin-right: 0px;
+    }
+
+    html .profil__content {
+        width: 86%;
+    }
+}
+
 @media screen and (max-width: 552px) {
 
     html .focus__body__left,
@@ -104,11 +130,12 @@
         flex-direction: column;
         align-items: center;
     }
-    html .updateMenu > h1{
+
+    html .updateMenu>h1 {
         font-size: 20px;
         text-align: center;
         padding: 6px;
-        background-color: rgba(0,0,0,.3);
+        background-color: rgba(0, 0, 0, .3);
         color: white;
     }
 
@@ -150,6 +177,14 @@
 @media screen and (max-width: 750px) {
     html main {
         padding-top: 260px;
+    }
+
+    .chatList {
+        height: 60vh;
+    }
+
+    html .profil form>div {
+        flex-direction: column;
     }
 
 

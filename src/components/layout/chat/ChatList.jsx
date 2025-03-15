@@ -46,12 +46,12 @@ export function ChatList({ users, onUpdateUserId, whosCalled }) {
                     <button type="button"><i className="fa-solid fa-magnifying-glass"></i></button>
                 </form>
             </div>
-            <div className="chatList__fiches">
+            <div className="chatList__fiches"> 
 
                 {whosCalled.length<=0? (dataUsers.map((user, index) => (
                     <div className="chatList__fiche" key={index} data-id={user._id} onClick={(e) => setUpRoomInfo(e)}>
                         <div className="chatList__fiche__profil">
-                            <img src={`${HOST}/api/images/avatars/${user.img_url}.png`} />
+                            <img src={`${HOST}/api/images/avatars/${user.img_url}`} />
                             <div className={`chatList__fiche__isConnected userIconnected--${user.isConnected === 0 ? "false" : "true"}`}></div>
                             <p>{user.name}</p>
                         </div>
@@ -59,7 +59,7 @@ export function ChatList({ users, onUpdateUserId, whosCalled }) {
                 ))) : (whosCalled.map((user, index) => (
                     <div className="chatList__fiche" key={index} data-id={user._id} onClick={(e) => setUpRoomInfo(e)}>
                         <div className="chatList__fiche__profil">
-                            <img src={`${HOST}/api/images/avatars/${user.img_url}.png`} />
+                            <img src={`${HOST}/api/images/avatars/${user.img_url}`} />
                             <div className={`chatList__fiche__isConnected userIconnected--${user.isConnected === 0 ? "false" : "true"}`}></div>
                             <p>{user.name}</p>
                             {user.isCalled && <p className="chatList__fiche__alert">🔔</p>}

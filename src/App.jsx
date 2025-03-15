@@ -16,6 +16,7 @@ import { useEffect } from "react";
 import { isUserConnected } from './services/auth';
 import { UpdateMenu } from './pages/focus/update/UpdateMenu';
 import { ChatMenu } from "./components/layout/chat/ChatMenu";
+import { RecipesBySearch } from "./pages/recipesBySearch/RecipesBySearch";
 
 
 function App() {
@@ -47,10 +48,12 @@ function App() {
           <Route path="/books" element={<Books />} />
           <Route path="/blog" element={<Blog />} />
           {state.isConnected && <Route path="/create" element={<Create />} />}
-          <Route path="/profil" element={<Profil />} />
+          {state.isConnected && <Route path="/profil" element={<Profil />} />}
           <Route path="/auth" element={<Auth />} />
           <Route path="/focus" element={<Focus />} />
           {state.isConnected && <Route path="/update" element={<UpdateMenu />} />}
+          <Route path="/recipesBySearch" element={<RecipesBySearch />} />
+          
         </Routes>
       </main>
       <Footer />

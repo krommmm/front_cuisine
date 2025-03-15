@@ -56,6 +56,31 @@
     width: 1029px;
     margin: auto;
     padding-left: 15px;
+    margin-top: 15px;
+}
+
+.focus__author>a {
+    color: inherit;
+    text-decoration: none;
+    position: relative;
+}
+
+.focus__author>a>img {
+    width: 60px;
+    height: 60px;
+    position: relative;
+    z-index: 1;
+}
+
+.focus__author>a>p {
+    position: absolute;
+    right: -37px;
+    top: -5px;
+    background-color: white;
+    padding: 5px 15px;
+    border: 1px solid black;
+    z-index: 1;
+    color: black;
 }
 
 .focus__author>p {

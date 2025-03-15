@@ -3,11 +3,23 @@ import { SearchBar } from "./SearchBar";
 import logo from "../../../../assets/pictures/logo/logo.png";
 import { NavLink } from "react-router-dom";
 import power from "../../../../assets/pictures/icones/power.png";
-import { shutDown } from "../../../../services/auth";
+import { shutDown, getMyId } from "../../../../services/auth";
 import { useAuth } from "../../../../contexts/AuthContext";
+import { useState, useEffect } from "react";
+
 export function Search() {
 
     const { state, dispatch } = useAuth();
+    const [myId, setMyId] = useState(null);
+
+    useEffect(()=>{
+        async function init(){
+            const res = await getMyId();
+            const id = res.data.userId;
+            setMyId(id);
+        }
+        init();
+    },[]);
 
     async function shutDownAuth(e) {
         e.preventDefault();
@@ -31,7 +43,7 @@ export function Search() {
                 </div>
                 <SearchBar />
                 <div className="search__auth">
-                    <NavLink to="/profil"><button className="btn search__auth--profil">Profil</button></NavLink>
+                  {state.isConnected && <NavLink to={`/profil?userId=${myId}`}><button className="btn search__auth--profil">Profil</button></NavLink> }
                     <NavLink to="/auth"><button className="btn search__auth--auth">Auth</button></NavLink>
                     <img src={power} onClick={(e) => shutDownAuth(e)} />
                 </div>

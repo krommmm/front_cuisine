@@ -11,7 +11,7 @@ import { FocusRight } from "./FocusRight";
 import { jsPDF } from 'jspdf';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-
+import { NavLink} from "react-router-dom";
 import { updateRecipe } from "../../services/recipes";
 
 export function Focus() {
@@ -153,7 +153,7 @@ export function Focus() {
                     <p className="focus__header--title">{recipe.name}</p>
                 </div>
                 <div className="focus__author">
-                    <p>{recipe.author}</p><img src={`${HOST}/api/images/avatars/${recipe.authorImg_url}.png`} />
+                   <NavLink to={`/profil?userId=${recipe.user_id}`}><p>{recipe.author}</p><img src={`${HOST}/api/images/avatars/${recipe.authorImg_url}`} /></NavLink> 
                 </div>
 
                 <div className="focus__body">

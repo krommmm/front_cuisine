@@ -163,5 +163,42 @@ export async function getMyId() {
     }
 }
 
+export async function updateProfil(data) {
+    try {
+        const preRes = await fetch(`${HOST}/api/auth/updateProfil`, {
+            method: "PUT",
+            credentials: 'include',
+            headers: {
+    
+            }, body: data,
+        });
+        const res = await preRes.json();
+        return {
+            status: preRes.status,
+            ok: preRes.ok,
+            data: res
+        };
+    } catch (err) {
+        console.error(err);
+    }
+}
 
-
+export async function getProfilById(userId) {
+    try {
+        const preRes = await fetch(`${HOST}/api/auth/getProfilById/${userId}`, {
+            method: "GET",
+            credentials: 'include',
+            headers: {
+    
+            },
+        });
+        const res = await preRes.json();
+        return {
+            status: preRes.status,
+            ok: preRes.ok,
+            data: res
+        };
+    } catch (err) {
+        console.error(err);
+    }
+}

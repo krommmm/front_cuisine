@@ -92,9 +92,7 @@ export function Recipes({ recipesData, onUpdateFav }) {
 
     return (
         <div className="recipePage">
-            {/* <div className="miniBanner">
-                
-            </div> */}
+            
             <div className="recipes__legend">
                 <div className="recipes__legend__tags">
                     <div className="btn">{parmUrl.category ? (parmUrl.category) : ("toutes les catégories")}</div>
