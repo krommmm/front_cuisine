@@ -67,7 +67,6 @@ export function ChatMenu() {
       // const sender = (myUsers.filter((user) => user._id === data.sender))[0];
       // setHistoryChat((prevS) => [...prevS, ({ name: sender.name, img_url: sender.img_url, msg: data.message })]);
       const res = await getMessages(data.sender, data.receiver);
-      await cleanMessages(data.sender, data.receiver);
       const messages = res.data.messages;
       const updateMessages = updateDate(messages);
       setHistoryChat(updateMessages);
@@ -144,8 +143,10 @@ export function ChatMenu() {
 
 
   async function joinPrivateChat(userId1, userId2) {
+    console.log(`senderId : ${userId1}`);
+    console.log(`receiverId : ${userId2}`);
+    await cleanMessages(userId1, userId2);
     const res = await getMessages(userId1, userId2);
-    const res2 = await cleanMessages(userId1, userId2);
     const messages = res.data.messages;
     const updateMessages = updateDate(messages);
     setHistoryChat(updateMessages);
