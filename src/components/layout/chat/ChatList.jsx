@@ -5,24 +5,35 @@ import { getMyId } from "../../../services/auth"
 export function ChatList({ users, onUpdateUserId, whosCalled }) {
 
     const [dataUsers, setDataUsers] = useState([]);
+    const [myUsers, setMyUsers] = useState([]);
+
 
 
     useEffect(() => {
         // récupérer l'id du user et supprimer son profil de users
-        async function controller() {
-            const resId = await getMyId(); 
-            const myId = resId.data.userId;
-            const usersWithoutMe = users.filter((user) => user._id !== myId);
-            setDataUsers(usersWithoutMe);
-        };
         controller();
     }, [users])
 
-    function searchUsers(e) {
+    async function controller() {
+        const usersWithoutme = await filterMyUser();
+        setDataUsers(usersWithoutme);
+    };
+
+    async function filterMyUser() {
+        const resId = await getMyId();
+        const myId = resId.data.userId;
+        const res = users.filter((user) => user._id !== myId);
+        setMyUsers(res);
+        return res;
+    }
+
+    async function searchUsers(e) {
+        e.preventDefault();
         const query = e.target.value.toLowerCase();
-        setDataUsers(users.filter(user =>
-            user.name.toLowerCase().includes(query)
-        ));
+        let tempoDataUsers = JSON.parse(JSON.stringify(dataUsers));
+        const res = tempoDataUsers.filter((user)=>user.name.toLowerCase().includes(query));
+        console.log(res);
+        setMyUsers(res);
     }
 
 
@@ -46,9 +57,9 @@ export function ChatList({ users, onUpdateUserId, whosCalled }) {
                     <button type="button"><i className="fa-solid fa-magnifying-glass"></i></button>
                 </form>
             </div>
-            <div className="chatList__fiches"> 
+            <div className="chatList__fiches">
 
-                {whosCalled.length<=0? (dataUsers.map((user, index) => (
+                {whosCalled.length <= 0 ? (myUsers.map((user, index) => (
                     <div className="chatList__fiche" key={index} data-id={user._id} onClick={(e) => setUpRoomInfo(e)}>
                         <div className="chatList__fiche__profil">
                             <img src={`${HOST}/api/images/avatars/${user.img_url}`} />
@@ -67,8 +78,9 @@ export function ChatList({ users, onUpdateUserId, whosCalled }) {
                     </div>
                 )))}
 
-     
+
             </div>
         </div>
     );
 }
+
