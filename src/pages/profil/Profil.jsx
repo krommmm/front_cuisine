@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { getFavByUserId } from "../../services/favorites";
 import { getCountOfRecipesByUserId, getMostFavRecipe } from "../../services/recipes";
 import { getMyId, getProfilById, updateProfil } from "../../services/auth";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { HOST } from "../../host";
 
 
@@ -17,6 +17,8 @@ export function Profil() {
     const [previewImage, setPreviewImage] = useState(null); // Etat pour l'aperçu de l'image
     const imgRef = useRef(null);
     const location = useLocation();
+    const navigate = useNavigate();
+    const [myId, setMyId] = useState("");
 
     function toggleModify() {
         setIsModifyMod(true);
@@ -28,6 +30,7 @@ export function Profil() {
 
     async function init() {
         const id = await getUserIdParam();
+        setMyId(id);
         const [res1, res2, res3, res4] = await Promise.all([
             getFavByUserId(id),
             getCountOfRecipesByUserId(id),
@@ -89,195 +92,139 @@ export function Profil() {
         setIsModifyMod(false);
     }
 
+    function recettesProfil(e) {
+        console.log("coucou");
+        e.preventDefault();
+        navigate(`/myRecipes?userId=${myId}`);
+    }
+
     return (
         <div className="profil">
             <div className="profil__content">
                 <h2>Mes données personnelles</h2>
 
-{user && user.email? (
-               <div className="profil__content__data">
-               <div className="profil__content__data__header">
-                   <div className="profil__content__data__header__profil">
-                       {user !== null && <img src={previewImage || `${HOST}/api/images/avatars/${user.img_url}`} className="preview" />}
-                       <label htmlFor="imageProfil" className="myLabel"><i className="fa-solid fa-camera" ></i></label>
-                   </div>
-                   <input type="file" name="img_url" id="imageProfil" onChange={handleImage} ref={imgRef} />
-                   {!isModifyMod && <button className="btn btn-modifier" onClick={toggleModify}>Modifier</button>}
-               </div>
-
-               {isModifyMod ? (
-                   <div className="profil__content__data__body">
-                       <form onSubmit={handleSubmit}>
-                           <div>
-                               <div className="inputsClassiques">
-                                   <div>
-                                       <label>Name<span className="asterixRouge">*</span></label>
-                                       <input type="text" name="name" placeholder="Nom" />
-                                   </div>
-                                   <div>
-                                       <label>Email<span className="asterixRouge">*</span></label>
-                                       <input type="email" name="email" placeholder="Email" />
-                                   </div>
-                                   <div>
-                                       <label>Password<span className="asterixRouge">*</span></label>
-                                       <input type="password" name="password" placeholder="Password" />
-                                   </div>
-                               </div>
-                               <div className="inputText">
-                                   <label>Description<span className="asterixRouge">*</span></label>
-                                   <textarea type="text" name="description" placeholder="Description" ></textarea>
-                               </div>
-                           </div>
-                           <button type="submit" className="btn">Submit</button>
-                       </form>
-                   </div>
-               ) : (
-                   <div className="profil__content__data__body">
-                       <div>
-                           <div>
-                               <label>Name <span className="asterixRouge">*</span></label>
-                               {user !== null && <p>{user.name}</p>}
-                           </div>
-                           <div>
-                               <label>Email <span className="asterixRouge">*</span></label>
-                               {user !== null && <p>{user.email}</p>}
-                           </div>
-                           <div>
-                               <label>Password <span className="asterixRouge">*</span></label>
-                               <p>****************</p>
-                           </div>
-                       </div>
-                       <div className="profil__content__data__body__description">
-                           {user !== null && <p>{user.description}</p>}
-                       </div>
-                   </div>
-               )}
-               <div className="profil__content__data__footer">
-                   {dateData !== null && <p>Date d'inscription: {`${dateData.day}-${dateData.month}-${dateData.year}`}</p>}
-                   <p>{favCount} likes / {myRecipeCount} recettes</p>
-                   <p>Recette la plus populaire: <NavLink to={`/focus?&recipeId=${mostFavRecipe._id}`}><span className="mostLikedRecipe">{mostFavRecipe.name}</span></NavLink> ({mostFavRecipe.favorites_count} {mostFavRecipe.favorites_count > 1 ? "likes" : "like"})</p>
-               </div>
-           </div>
-): (
-    <div className="profil__content__data">
-    <div className="profil__content__data__header">
-        <div className="profil__content__data__header__profil">
-            {user !== null && <img src={`${HOST}/api/images/avatars/${user.img_url}`} />}
-        </div>
-    </div>
-
-    {isModifyMod ? (
-        <div className="profil__content__data__body">
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <div className="inputsClassiques">
-                        <div>
-                            <label>Name<span className="asterixRouge">*</span></label>
-                            <input type="text" name="name" placeholder="Nom" />
+                {user && user.email ? (
+                    <div className="profil__content__data">
+                        <div className="profil__content__data__header">
+                            <div className="profil__content__data__header__profil">
+                                {user !== null && <img src={previewImage || `${HOST}/api/images/avatars/${user.img_url}`} className="preview" />}
+                                <label htmlFor="imageProfil" className="myLabel"><i className="fa-solid fa-camera" ></i></label>
+                            </div>
+                            <input type="file" name="img_url" id="imageProfil" onChange={handleImage} ref={imgRef} />
+                            {!isModifyMod && <button className="btn btn-modifier" onClick={toggleModify}>Modifier</button>}
                         </div>
-                        <div>
-                            <label>Email<span className="asterixRouge">*</span></label>
-                            <input type="email" name="email" placeholder="Email" />
-                        </div>
-                        <div>
-                            <label>Password<span className="asterixRouge">*</span></label>
-                            <input type="password" name="password" placeholder="Password" />
-                        </div>
-                    </div>
-                    <div className="inputText">
-                        <label>Description<span className="asterixRouge">*</span></label>
-                        <textarea type="text" name="description" placeholder="Description" ></textarea>
-                    </div>
-                </div>
-                <button type="submit" className="btn">Submit</button>
-            </form>
-        </div>
-    ) : (
-        <div className="profil__content__data__body">
-            <div>
-                <div>
-                    <label>Name <span className="asterixRouge">*</span></label>
-                    {user !== null && <p>{user.name}</p>}
-                </div>
 
-
-            </div>
-            <div className="profil__content__data__body__description">
-                {user !== null && <p>{user.description}</p>}
-            </div>
-        </div>
-    )}
-    <div className="profil__content__data__footer">
-        {dateData !== null && <p>Date d'inscription: {`${dateData.day}-${dateData.month}-${dateData.year}`}</p>}
-        <p>{favCount} likes / {myRecipeCount} recettes</p>
-        <p>Recette la plus populaire: <NavLink to={`/focus?&recipeId=${mostFavRecipe._id}`}><span className="mostLikedRecipe">{mostFavRecipe.name}</span></NavLink> ({mostFavRecipe.favorites_count} {mostFavRecipe.favorites_count > 1 ? "likes" : "like"})</p>
-    </div>
-</div>
-)}
-                
-                {/* <div className="profil__content__data">
-                    <div className="profil__content__data__header">
-                        <div className="profil__content__data__header__profil">
-                            {user !== null && <img src={previewImage || `${HOST}/api/images/avatars/${user.img_url}`} className="preview" />}
-                            <label htmlFor="imageProfil" className="myLabel"><i className="fa-solid fa-camera" ></i></label>
-                        </div>
-                        <input type="file" name="img_url" id="imageProfil" onChange={handleImage} ref={imgRef} />
-                        {!isModifyMod && <button className="btn btn-modifier" onClick={toggleModify}>Modifier</button>}
-                    </div>
-
-                    {isModifyMod ? (
-                        <div className="profil__content__data__body">
-                            <form onSubmit={handleSubmit}>
-                                <div>
-                                    <div className="inputsClassiques">
-                                        <div>
-                                            <label>Name<span className="asterixRouge">*</span></label>
-                                            <input type="text" name="name" placeholder="Nom" />
+                        {isModifyMod ? (
+                            <div className="profil__content__data__body">
+                                <form onSubmit={handleSubmit}>
+                                    <div>
+                                        <div className="inputsClassiques">
+                                            <div>
+                                                <label>Name<span className="asterixRouge">*</span></label>
+                                                <input type="text" name="name" placeholder="Nom" />
+                                            </div>
+                                            <div>
+                                                <label>Email<span className="asterixRouge">*</span></label>
+                                                <input type="email" name="email" placeholder="Email" />
+                                            </div>
+                                            <div>
+                                                <label>Password<span className="asterixRouge">*</span></label>
+                                                <input type="password" name="password" placeholder="Password" />
+                                            </div>
                                         </div>
-                                        <div>
-                                            <label>Email<span className="asterixRouge">*</span></label>
-                                            <input type="email" name="email" placeholder="Email" />
-                                        </div>
-                                        <div>
-                                            <label>Password<span className="asterixRouge">*</span></label>
-                                            <input type="password" name="password" placeholder="Password" />
+                                        <div className="inputText">
+                                            <label>Description<span className="asterixRouge">*</span></label>
+                                            <textarea type="text" name="description" placeholder="Description" ></textarea>
                                         </div>
                                     </div>
-                                    <div className="inputText">
-                                        <label>Description<span className="asterixRouge">*</span></label>
-                                        <textarea type="text" name="description" placeholder="Description" ></textarea>
+                                    <button type="submit" className="btn">Submit</button>
+                                </form>
+                            </div>
+                        ) : (
+                            <div className="profil__content__data__body">
+                                <div>
+                                    <div>
+                                        <label>Name <span className="asterixRouge">*</span></label>
+                                        {user !== null && <p>{user.name}</p>}
+                                    </div>
+                                    <div>
+                                        <label>Email <span className="asterixRouge">*</span></label>
+                                        {user !== null && <p>{user.email}</p>}
+                                    </div>
+                                    <div>
+                                        <label>Password <span className="asterixRouge">*</span></label>
+                                        <p>****************</p>
                                     </div>
                                 </div>
-                                <button type="submit" className="btn">Submit</button>
-                            </form>
-                        </div>
-                    ) : (
-                        <div className="profil__content__data__body">
-                            <div>
-                                <div>
-                                    <label>Name <span className="asterixRouge">*</span></label>
-                                    {user !== null && <p>{user.name}</p>}
-                                </div>
-                                <div>
-                                    <label>Email <span className="asterixRouge">*</span></label>
-                                    {user !== null && <p>{user.email}</p>}
-                                </div>
-                                <div>
-                                    <label>Password <span className="asterixRouge">*</span></label>
-                                    <p>****************</p>
+                                <div className="profil__content__data__body__description">
+                                    {user !== null && <p>{user.description}</p>}
                                 </div>
                             </div>
-                            <div className="profil__content__data__body__description">
-                                {user !== null && <p>{user.description}</p>}
-                            </div>
+                        )}
+                        <div className="profil__content__data__footer">
+                            {dateData !== null && <p>Date d'inscription: {`${dateData.day}-${dateData.month}-${dateData.year}`}</p>}
+                            <p>{favCount} likes / {myRecipeCount} recettes</p>
+                            <p>Recette la plus populaire: <NavLink to={`/focus?&recipeId=${mostFavRecipe._id}`}><span className="mostLikedRecipe">{mostFavRecipe.name}</span></NavLink> ({mostFavRecipe.favorites_count} {mostFavRecipe.favorites_count > 1 ? "likes" : "like"})</p>
+                            <button className="btn btn-myRecipes" onClick={recettesProfil}>Mes recettes</button>
                         </div>
-                    )}
-                    <div className="profil__content__data__footer">
-                        {dateData !== null && <p>Date d'inscription: {`${dateData.day}-${dateData.month}-${dateData.year}`}</p>}
-                        <p>{favCount} likes / {myRecipeCount} recettes</p>
-                        <p>Recette la plus populaire: <NavLink to={`/focus?&recipeId=${mostFavRecipe._id}`}><span className="mostLikedRecipe">{mostFavRecipe.name}</span></NavLink> ({mostFavRecipe.favorites_count} {mostFavRecipe.favorites_count > 1 ? "likes" : "like"})</p>
                     </div>
-                </div> */}
+                ) : (
+                    <div className="profil__content__data">
+                        <div className="profil__content__data__header">
+                            <div className="profil__content__data__header__profil">
+                                {user !== null && <img src={`${HOST}/api/images/avatars/${user.img_url}`} />}
+                            </div>
+                        </div>
+
+                        {isModifyMod ? (
+                            <div className="profil__content__data__body">
+                                <form onSubmit={handleSubmit}>
+                                    <div>
+                                        <div className="inputsClassiques">
+                                            <div>
+                                                <label>Name<span className="asterixRouge">*</span></label>
+                                                <input type="text" name="name" placeholder="Nom" />
+                                            </div>
+                                            <div>
+                                                <label>Email<span className="asterixRouge">*</span></label>
+                                                <input type="email" name="email" placeholder="Email" />
+                                            </div>
+                                            <div>
+                                                <label>Password<span className="asterixRouge">*</span></label>
+                                                <input type="password" name="password" placeholder="Password" />
+                                            </div>
+                                        </div>
+                                        <div className="inputText">
+                                            <label>Description<span className="asterixRouge">*</span></label>
+                                            <textarea type="text" name="description" placeholder="Description" ></textarea>
+                                        </div>
+                                    </div>
+                                    <button type="submit" className="btn">Submit</button>
+                                </form>
+                            </div>
+                        ) : (
+                            <div className="profil__content__data__body">
+                                <div>
+                                    <div>
+                                        <label>Name <span className="asterixRouge">*</span></label>
+                                        {user !== null && <p>{user.name}</p>}
+                                    </div>
+
+
+                                </div>
+                                <div className="profil__content__data__body__description">
+                                    {user !== null && <p>{user.description}</p>}
+                                </div>
+                            </div>
+                        )}
+                        <div className="profil__content__data__footer">
+                            {dateData !== null && <p>Date d'inscription: {`${dateData.day}-${dateData.month}-${dateData.year}`}</p>}
+                            <p>{favCount} likes / {myRecipeCount} recettes</p>
+                            <p>Recette la plus populaire: <NavLink to={`/focus?&recipeId=${mostFavRecipe._id}`}><span className="mostLikedRecipe">{mostFavRecipe.name}</span></NavLink> ({mostFavRecipe.favorites_count} {mostFavRecipe.favorites_count > 1 ? "likes" : "like"})</p>
+                            <button className="btn btn-myRecipes" onClick={recettesProfil}>Mes recettes</button>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -17,6 +17,7 @@ import { isUserConnected } from './services/auth';
 import { UpdateMenu } from './pages/focus/update/UpdateMenu';
 import { ChatMenu } from "./components/layout/chat/ChatMenu";
 import { RecipesBySearch } from "./pages/recipesBySearch/RecipesBySearch";
+import { MyRecipes } from './pages/myRecipes/MyRecipes';
 
 
 function App() {
@@ -53,7 +54,7 @@ function App() {
           <Route path="/focus" element={<Focus />} />
           {state.isConnected && <Route path="/update" element={<UpdateMenu />} />}
           <Route path="/recipesBySearch" element={<RecipesBySearch />} />
-          
+          {state.isConnected && <Route path="/myRecipes" element={<MyRecipes />} />}
         </Routes>
       </main>
       <Footer />

@@ -15,6 +15,11 @@ export function ChatList({ users, onUpdateUserId, whosCalled }) {
     }, [users])
 
     async function controller() {
+        if (whosCalled && whosCalled.length > 0) {
+            const calledUsersFiltered = await filterMyUser();
+            setDataUsers(calledUsersFiltered);
+            return;
+        }
         const usersWithoutme = await filterMyUser();
         setDataUsers(usersWithoutme);
     };
@@ -31,7 +36,7 @@ export function ChatList({ users, onUpdateUserId, whosCalled }) {
         e.preventDefault();
         const query = e.target.value.toLowerCase();
         let tempoDataUsers = JSON.parse(JSON.stringify(dataUsers));
-        const res = tempoDataUsers.filter((user)=>user.name.toLowerCase().includes(query));
+        const res = tempoDataUsers.filter((user) => user.name.toLowerCase().includes(query));
         console.log(res);
         setMyUsers(res);
     }
@@ -67,7 +72,7 @@ export function ChatList({ users, onUpdateUserId, whosCalled }) {
                             <p>{user.name}</p>
                         </div>
                     </div>
-                ))) : (whosCalled.map((user, index) => (
+                ))) : (myUsers.map((user, index) => (
                     <div className="chatList__fiche" key={index} data-id={user._id} onClick={(e) => setUpRoomInfo(e)}>
                         <div className="chatList__fiche__profil">
                             <img src={`${HOST}/api/images/avatars/${user.img_url}`} />

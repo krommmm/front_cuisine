@@ -331,3 +331,25 @@ export async function getRecipesByResearch(research) {
     }
 };
 
+
+
+export async function allMyRecipes(userId) {
+    console.log(userId);
+    try {
+        const preRes = await fetch(`${HOST}/api/recipe/allMyRecipes/${userId}`, {
+            method: "GET",
+            credentials: 'include',
+            headers: {
+                "Accept": "application/json",
+            },
+        });
+        const res = await preRes.json();
+        return {
+            status: preRes.status,
+            ok: preRes.ok,
+            data: res
+        };
+    } catch (err) {
+        console.error(err);
+    }
+};

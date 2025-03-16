@@ -117,7 +117,7 @@ export function ChatMenu() {
     });
 
     return () => {
-      socket.off("cleanAlert");
+      socket.off("cleanAlert"); 
     };
   }, []);
 
