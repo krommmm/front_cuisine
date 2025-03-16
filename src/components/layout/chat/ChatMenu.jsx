@@ -61,13 +61,13 @@ export function ChatMenu() {
 
   useEffect(() => {
     socket.on("receiveMessage", async (data) => {
-      const myUsersRes = await getUsers();
-      const myUsers = myUsersRes.data.users;
+      // const myUsersRes = await getUsers();
+      // const myUsers = myUsersRes.data.users;
       console.log(`Message from ${data.sender}: ${data.message}`);
       // const sender = (myUsers.filter((user) => user._id === data.sender))[0];
       // setHistoryChat((prevS) => [...prevS, ({ name: sender.name, img_url: sender.img_url, msg: data.message })]);
       const res = await getMessages(data.sender, data.receiver);
-      const res2 = await cleanMessages(data.sender, data.receiver);
+      await cleanMessages(data.sender, data.receiver);
       const messages = res.data.messages;
       const updateMessages = updateDate(messages);
       setHistoryChat(updateMessages);
@@ -156,7 +156,7 @@ export function ChatMenu() {
     socket.emit("sendMessage", { sender, receiver, message });
     const res = await getMessages(sender, receiver);
     const messages = res.data.messages;
-    const updateMessages = updateDate(messages); 
+    const updateMessages = updateDate(messages);
     console.log(updateMessages);
     setHistoryChat(updateMessages);
   }
