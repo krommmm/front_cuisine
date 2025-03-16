@@ -64,15 +64,7 @@ export function ChatList({ users, onUpdateUserId, whosCalled }) {
             </div>
             <div className="chatList__fiches">
 
-                {whosCalled.length <= 0 ? (myUsers.map((user, index) => (
-                    <div className="chatList__fiche" key={index} data-id={user._id} onClick={(e) => setUpRoomInfo(e)}>
-                        <div className="chatList__fiche__profil">
-                            <img src={`${HOST}/api/images/avatars/${user.img_url}`} />
-                            <div className={`chatList__fiche__isConnected userIconnected--${user.isConnected === 0 ? "false" : "true"}`}></div>
-                            <p>{user.name}</p>
-                        </div>
-                    </div>
-                ))) : (myUsers.map((user, index) => (
+                {myUsers.map((user, index) => (
                     <div className="chatList__fiche" key={index} data-id={user._id} onClick={(e) => setUpRoomInfo(e)}>
                         <div className="chatList__fiche__profil">
                             <img src={`${HOST}/api/images/avatars/${user.img_url}`} />
@@ -81,9 +73,7 @@ export function ChatList({ users, onUpdateUserId, whosCalled }) {
                             {user.isCalled && <p className="chatList__fiche__alert">🔔</p>}
                         </div>
                     </div>
-                )))}
-
-
+                ))}
             </div>
         </div>
     );
