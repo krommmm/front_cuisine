@@ -142,6 +142,7 @@ export function ChatMenu() {
 
 
   async function joinPrivateChat(userId1, userId2) {
+    console.log(`userId1 : ${userId1} & userId2 : ${userId2}`);
     await cleanMessages(userId1, userId2);
     const res = await getMessages(userId1, userId2);
     const messages = res.data.messages;
