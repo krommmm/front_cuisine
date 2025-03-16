@@ -148,6 +148,7 @@ export function ChatMenu() {
     const updateMessages = updateDate(messages);
     setHistoryChat(updateMessages);
     socket.emit("joinPrivateChat", userId1, userId2);
+    console.log(historyChat);
   }
 
   async function sendMessage(sender, receiver, message) {
