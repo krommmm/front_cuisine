@@ -145,6 +145,7 @@ export function ChatMenu() {
     await cleanMessages(userId1, userId2);
     const res = await getMessages(userId1, userId2);
     const messages = res.data.messages;
+    console.log(messages);
     const updateMessages = updateDate(messages);
     setHistoryChat(updateMessages);
     socket.emit("joinPrivateChat", userId1, userId2);
