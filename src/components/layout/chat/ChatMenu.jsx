@@ -66,6 +66,11 @@ export function ChatMenu() {
       console.log(`Message from ${data.sender}: ${data.message}`);
       // const sender = (myUsers.filter((user) => user._id === data.sender))[0];
       // setHistoryChat((prevS) => [...prevS, ({ name: sender.name, img_url: sender.img_url, msg: data.message })]);
+      const res = await getMessages(data.sender, data.receiver);
+      const res2 = await cleanMessages(data.sender, data.receiver);
+      const messages = res.data.messages;
+      const updateMessages = updateDate(messages);
+      setHistoryChat(updateMessages);
     });
 
     return () => {
@@ -141,7 +146,6 @@ export function ChatMenu() {
   async function joinPrivateChat(userId1, userId2) {
     const res = await getMessages(userId1, userId2);
     const res2 = await cleanMessages(userId1, userId2);
-
     const messages = res.data.messages;
     const updateMessages = updateDate(messages);
     setHistoryChat(updateMessages);
@@ -152,7 +156,8 @@ export function ChatMenu() {
     socket.emit("sendMessage", { sender, receiver, message });
     const res = await getMessages(sender, receiver);
     const messages = res.data.messages;
-    const updateMessages = updateDate(messages);
+    const updateMessages = updateDate(messages); 
+    console.log(updateMessages);
     setHistoryChat(updateMessages);
   }
 
@@ -185,7 +190,7 @@ export function ChatMenu() {
     for (let i = 0; i < messages.length; i++) {
       const timeStamp = messages[i].created_at;
       const date = new Date(timeStamp);
-      const dateData =  {
+      const dateData = {
         day: date.getDay(),
         month: date.getMonth(),
         year: date.getFullYear(),
