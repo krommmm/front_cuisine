@@ -11,7 +11,7 @@ import { FocusRight } from "./FocusRight";
 import { jsPDF } from 'jspdf';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import { NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { updateRecipe } from "../../services/recipes";
 
 export function Focus() {
@@ -129,12 +129,9 @@ export function Focus() {
 
     function handleUpdate(e) {
         e.preventDefault();
-
         setIsUpdate((prevState) => !prevState);
-        // const params = getUrlParams();
-        // redirection vers updateMenu avec tous les params 
-        // navigate(`/update?page=${params.page}&recipeId=${params.recipeId}&category=${params.category}&tag=${params.tag}`);
     }
+
     function handleUpdateImg(e) {
         const params = getUrlParams();
         navigate(`/update?page=${params.page}&recipeId=${params.recipeId}&category=${params.category}&tag=${params.tag}&update=image`);
@@ -152,9 +149,9 @@ export function Focus() {
                     <div className="focus__header__previousPage" onClick={(e) => handleReturn(e)}><i className="fa-solid fa-arrow-left"></i></div>
                     <p className="focus__header--title">{recipe.name}</p>
                 </div>
-                <div className="focus__author">
-                   <NavLink to={`/profil?userId=${recipe.user_id}`}><p>{recipe.author}</p><img src={`${HOST}/api/images/avatars/${recipe.authorImg_url}`} /></NavLink> 
-                </div>
+                {state.isConnected && <div className="focus__author">
+                    <NavLink to={`/profil?userId=${recipe.user_id}`}><p>{recipe.author}</p><img src={`${HOST}/api/images/avatars/${recipe.authorImg_url}`} /></NavLink>
+                </div>}
 
                 <div className="focus__body">
                     <div className="focus__body__left">
