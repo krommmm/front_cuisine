@@ -137,14 +137,11 @@ export function ChatMenu() {
     if (myId && roomTargetUserId) {
       console.log(`Joining private chat between ${myId} and ${roomTargetUserId}`);
       joinPrivateChat(myId, roomTargetUserId);
-      setHistoryChat([]);
     }
   }, [myId, roomTargetUserId]); // Cette effect se lance chaque fois que myId ou userId change
 
 
   async function joinPrivateChat(userId1, userId2) {
-    console.log(`senderId : ${userId1}`);
-    console.log(`receiverId : ${userId2}`);
     await cleanMessages(userId1, userId2);
     const res = await getMessages(userId1, userId2);
     const messages = res.data.messages;
