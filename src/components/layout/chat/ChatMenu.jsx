@@ -5,6 +5,7 @@ import { ChatList } from "./ChatList";
 import { getMyProfil, getUsers } from "../../../services/auth";
 import { getMyId } from "../../../services/auth";
 import { socket } from "../../../functions/socket";
+import { getMessages, cleanMessages } from "../../../services/messages";
 
 export function ChatMenu() {
   const [chatMode, setChatMode] = useState(true);
@@ -63,8 +64,8 @@ export function ChatMenu() {
       const myUsersRes = await getUsers();
       const myUsers = myUsersRes.data.users;
       console.log(`Message from ${data.sender}: ${data.message}`);
-      const sender = (myUsers.filter((user) => user._id === data.sender))[0];
-      setHistoryChat((prevS) => [...prevS, ({ name: sender.name, img_url: sender.img_url, msg: data.message })]);
+      // const sender = (myUsers.filter((user) => user._id === data.sender))[0];
+      // setHistoryChat((prevS) => [...prevS, ({ name: sender.name, img_url: sender.img_url, msg: data.message })]);
     });
 
     return () => {
@@ -137,12 +138,22 @@ export function ChatMenu() {
   }, [myId, roomTargetUserId]); // Cette effect se lance chaque fois que myId ou userId change
 
 
-  function joinPrivateChat(userId1, userId2) {
+  async function joinPrivateChat(userId1, userId2) {
+    const res = await getMessages(userId1, userId2);
+    const res2 = await cleanMessages(userId1, userId2);
+
+    const messages = res.data.messages;
+    const updateMessages = updateDate(messages);
+    setHistoryChat(updateMessages);
     socket.emit("joinPrivateChat", userId1, userId2);
   }
 
-  function sendMessage(sender, receiver, message) {
+  async function sendMessage(sender, receiver, message) {
     socket.emit("sendMessage", { sender, receiver, message });
+    const res = await getMessages(sender, receiver);
+    const messages = res.data.messages;
+    const updateMessages = updateDate(messages);
+    setHistoryChat(updateMessages);
   }
 
   useEffect(() => {
@@ -168,6 +179,22 @@ export function ChatMenu() {
         setRoomTargetUserId("");
       }
     }
+  }
+
+  function updateDate(messages) {
+    for (let i = 0; i < messages.length; i++) {
+      const timeStamp = messages[i].created_at;
+      const date = new Date(timeStamp);
+      const dateData =  {
+        day: date.getDay(),
+        month: date.getMonth(),
+        year: date.getFullYear(),
+        hours: date.getHours(),
+        minutes: date.getMinutes()
+      }
+      messages[i].dateData = dateData;
+    }
+    return messages;
   }
 
   return (

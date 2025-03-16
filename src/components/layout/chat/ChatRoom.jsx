@@ -28,13 +28,13 @@ export function ChatRoom({ onUpdateUserId, historyChat, onUpdateMessage, userToC
           <i className="fa-solid fa-xmark leaveRoom" onClick={leaveRoom}></i>
         </div>
         <div className="chatRoom__content__chat">
-          {historyChat && historyChat.length > 0 && historyChat.map((cell,index) => (
+          {historyChat && historyChat.length > 0 && historyChat.reverse().map((cell, index) => (
             // <p key={index}>{msg}</p>
             <div key={index}>
               <div>
-                <img src={`${HOST}/api/images/avatars/${cell.img_url}`} /><p>{cell.name}</p>
+                <img src={`${HOST}/api/images/avatars/${cell.sender_img_url}`} /><p>{cell.sender_name} <span className="msgDate">. {cell.dateData.hours}:{cell.dateData.minutes}</span></p>
               </div>
-              <p>{cell.msg}</p>
+              <p>{cell.content}</p>
             </div>
           ))}
         </div>

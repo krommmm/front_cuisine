@@ -264,3 +264,8 @@
     animation-fill-mode: forwards;
     animation-iteration-count: infinite;
 }
+
+.msgDate{
+    color:grey;
+    font-size:12px;
+}
