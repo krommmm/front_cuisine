@@ -55,6 +55,7 @@ export function ChatList({ users, onUpdateUserId, whosCalled }) {
 
     return (
         <div className="chatList">
+            {console.log(myUsers)}
 
             <div className="chatList__searchBar">
                 <form>
