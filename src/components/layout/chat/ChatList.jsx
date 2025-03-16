@@ -16,7 +16,7 @@ export function ChatList({ users, onUpdateUserId, whosCalled }) {
 
     async function controller() {
         if (whosCalled && whosCalled.length > 0) {
-            const calledUsersFiltered = await filterMyUser();
+            const calledUsersFiltered = await filterMyUser(whosCalled);
             setDataUsers(calledUsersFiltered);
             return;
         }
@@ -24,10 +24,10 @@ export function ChatList({ users, onUpdateUserId, whosCalled }) {
         setDataUsers(usersWithoutme);
     };
 
-    async function filterMyUser() {
+    async function filterMyUser(cpUsers=users) {
         const resId = await getMyId();
         const myId = resId.data.userId;
-        const res = users.filter((user) => user._id !== myId);
+        const res = cpUsers.filter((user) => user._id !== myId);
         setMyUsers(res);
         return res;
     }
