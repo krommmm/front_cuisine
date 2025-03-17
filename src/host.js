@@ -1,1 +1,1 @@
-export const HOST = "http://localhost:1892";
+export const HOST = "https://cuisine.tbuilder.fr";
