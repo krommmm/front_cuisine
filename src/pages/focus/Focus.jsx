@@ -142,7 +142,7 @@ export function Focus() {
     }
     return (
 
-        <div className="focus" style={{ backgroundImage: `url('${HOST}/api/images/recipes/${recipe.img_url}')` }}>
+        <div className="focus">
 
             <div className="focus__filter">
                 <div className="focus__header">
