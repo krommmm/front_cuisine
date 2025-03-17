@@ -28,7 +28,7 @@ export function ChatRoom({ onUpdateUserId, historyChat, onUpdateMessage, userToC
           <i className="fa-solid fa-xmark leaveRoom" onClick={leaveRoom}></i>
         </div>
         <div className="chatRoom__content__chat">
-          {historyChat && historyChat.length > 0 && historyChat.reverse().map((cell, index) => (
+          {historyChat && historyChat.length > 0 && historyChat.map((cell, index) => (
             // <p key={index}>{msg}</p>
             <div key={index}>
               <div>
