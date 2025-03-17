@@ -55,6 +55,7 @@ function App() {
           {state.isConnected && <Route path="/update" element={<UpdateMenu />} />}
           <Route path="/recipesBySearch" element={<RecipesBySearch />} />
           {state.isConnected && <Route path="/myRecipes" element={<MyRecipes />} />}
+          
         </Routes>
       </main>
       <Footer />

@@ -66,10 +66,12 @@ export function ChatMenu() {
       console.log(`Message from ${data.sender}: ${data.message}`);
       // const sender = (myUsers.filter((user) => user._id === data.sender))[0];
       // setHistoryChat((prevS) => [...prevS, ({ name: sender.name, img_url: sender.img_url, msg: data.message })]);
-      const res = await getMessages(data.sender, data.receiver);
-      const messages = res.data.messages;
-      const updateMessages = updateDate(messages);
-      setHistoryChat(updateMessages);
+      // const res = await getMessages(data.sender, data.receiver);
+      // const messages = res.data.messages;
+      // const updateMessages = updateDate(messages);
+      // setHistoryChat(updateMessages);
+
+      majMessageHistory(data.sender, data.receiver)
     });
 
     return () => {
@@ -79,7 +81,7 @@ export function ChatMenu() {
 
 
   useEffect(() => {
-    socket.on('notificationAuCopain', (room, copain) => {
+    socket.on('notificationAuCopain', (room, copain, sender) => {
       console.log(`${copain} vous a invité sur la room ${room}`);
       console.log("invitation du copain");
 
@@ -100,14 +102,20 @@ export function ChatMenu() {
         }
       }
       indiquerQuiAppel();
-
-
+      majMessageHistory(sender, copain);
     });
 
     return () => {
       socket.off("notificationAuCopain");
     };
   }, []);
+
+  async function majMessageHistory(sender, receiver) {
+    const res = await getMessages(sender, receiver);
+    const messages = res.data.messages;
+    const updateMessages = updateDate(messages);
+    setHistoryChat(updateMessages);
+  }
 
 
   useEffect(() => {
@@ -117,7 +125,7 @@ export function ChatMenu() {
     });
 
     return () => {
-      socket.off("cleanAlert"); 
+      socket.off("cleanAlert");
     };
   }, []);
 
@@ -144,22 +152,13 @@ export function ChatMenu() {
   async function joinPrivateChat(userId1, userId2) {
     console.log(`userId1 : ${userId1} & userId2 : ${userId2}`);
     await cleanMessages(userId1, userId2);
-    const res = await getMessages(userId1, userId2);
-    const messages = res.data.messages;
-    console.log(messages);
-    const updateMessages = updateDate(messages);
-    setHistoryChat(updateMessages);
+    majMessageHistory(userId1, userId2)
     socket.emit("joinPrivateChat", userId1, userId2);
-    console.log(historyChat);
   }
 
   async function sendMessage(sender, receiver, message) {
     socket.emit("sendMessage", { sender, receiver, message });
-    const res = await getMessages(sender, receiver);
-    const messages = res.data.messages;
-    const updateMessages = updateDate(messages);
-    console.log(updateMessages);
-    setHistoryChat(updateMessages);
+    majMessageHistory(sender, receiver);
   }
 
   useEffect(() => {

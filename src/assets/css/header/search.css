@@ -53,8 +53,8 @@
     color: white;
 }
 
-.searchBar__miniNavigation{
-    display:none;
+.searchBar__miniNavigation {
+    display: none;
 }
 
 /* search buttons */
@@ -80,7 +80,11 @@
 
 /* shut down */
 .search__auth img {
-    width: 25px;
+    width: 17px;
     cursor: pointer;
-    margin-left: 15px;
+
+}
+
+.btn-shutDown {
+
 }

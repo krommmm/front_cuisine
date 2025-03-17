@@ -21,15 +21,13 @@ export function Search() {
         init();
     },[]);
 
-    async function shutDownAuth(e) {
+    async function shutDownAuth(e) { 
         e.preventDefault();
         await shutDown();
         dispatch({ type: "LOGOUT" });
     }
 
-    function toogleNavigation() {
-        dispatch({ type: "SET_MOBILE", payload: !state.isMobile });
-    }
+
 
     return (
         <div className="search">
@@ -37,15 +35,16 @@ export function Search() {
                 <div className="search__logo">
                     <img src={logo} />
                     <p>Cuisine</p>
-                    <div className="searchBar__miniNavigation" onClick={(e) => toogleNavigation(e)}>
+                    {/* <div className="searchBar__miniNavigation" onClick={(e) => toogleNavigation(e)}>
                         <i className="fa-solid fa-bars"></i>
-                    </div>
+                    </div> */} 
                 </div>
                 <SearchBar />
                 <div className="search__auth">
                   {state.isConnected && <NavLink to={`/profil?userId=${myId}`}><button className="btn search__auth--profil">Profil</button></NavLink> }
                     <NavLink to="/auth"><button className="btn search__auth--auth">Auth</button></NavLink>
-                    <img src={power} onClick={(e) => shutDownAuth(e)} />
+                   
+                    <button className="btn btn-shutDown"> <img src={power} onClick={(e) => shutDownAuth(e)} /></button>
                 </div>
             </div>
         </div>

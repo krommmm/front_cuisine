@@ -139,6 +139,25 @@
         color: white;
     }
 
+    html .search__logo {
+        display: none;
+    }
+
+    html .searchBar__miniNavigation i {
+        position: static;
+        margin-left: 8px;
+    }
+
+    html .searchBar {
+        margin: 0px;
+        width: 100%;
+    }
+
+    body .search__auth img {
+        width: 15px;
+    }
+
+
 }
 
 @media screen and (max-width: 450px) {
@@ -199,13 +218,35 @@
 
     .searchBar input {
         min-width: 115px;
-        margin: 18px 0px;
+        margin: 0px;
+    }
+
+    .search__auth {
+        margin-top: 13px;
     }
 
     .navigation__content {
         width: 100%;
         display: flex;
         align-items: center;
+    }
+
+    html .search__logo {
+        display: none;
+    }
+
+    html .searchBar__miniNavigation i {
+        position: static;
+        margin-left: 8px;
+    }
+
+    html .searchBar {
+        margin: 0px;
+        width: 100%;
+    }
+
+    body .search__auth img {
+        width: 15px;
     }
 }
 
