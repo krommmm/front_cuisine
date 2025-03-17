@@ -194,9 +194,7 @@
 
 
 @media screen and (max-width: 750px) {
-    html main {
-        padding-top: 260px;
-    }
+
 
     .chatList {
         height: 60vh;
