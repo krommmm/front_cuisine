@@ -74,8 +74,8 @@
 
 .focus__author>a>p {
     position: absolute;
-    right: -53px;
-    top: 13px;
+    right: -19px;
+    top: 45px;
     background-color: white;
     padding: 5px 15px;
     border: 1px solid black;
@@ -334,9 +334,8 @@
 .focusRight__steps__etapes__step {
     margin: 5px 0px;
 }
-
-.focusRight__steps__etapes__step p {
-    display: flex;
+.focusRight__steps__etapes__step p{
+    display:flex;
 }
 
 /* hauteur */

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getRecipe, deleteRecipe } from "../../services/recipes";
+import { getProfilById } from "../../services/auth";
 import { getFavorites } from "../../services/favorites";
 import { HOST } from "../../host";
 import oven from "../../assets/pictures/icones/oven.png";
@@ -30,7 +31,10 @@ export function Focus() {
     }, []);
 
     async function controller() {
-        const recipeRe = await getOneRecipe();
+        let recipeRe = await getOneRecipe();
+        const userId = recipeRe.user_id;
+        const myUser = await getProfilById(userId);
+        recipeRe.imgUser = myUser.data.user.img_url;
         const recipeWidhtFavorites = await addFavoritesToData(recipeRe);
         setRecipe(recipeWidhtFavorites);
     }
@@ -123,7 +127,7 @@ export function Focus() {
     async function handleDeleteRecipe(e) {
         e.preventDefault();
         const recipeId = getRecipeIdUrlParms();
-        const res = await deleteRecipe(recipeId);
+        await deleteRecipe(recipeId);
         navigate("/");
     }
 
@@ -150,7 +154,7 @@ export function Focus() {
                     <p className="focus__header--title">{recipe.name}</p>
                 </div>
                 {state.isConnected && <div className="focus__author">
-                    <NavLink to={`/profil?userId=${recipe.user_id}`}><p>{recipe.author}</p><img src={`${HOST}/api/images/avatars/${recipe.authorImg_url}`} /></NavLink>
+                    <NavLink to={`/profil?userId=${recipe.user_id}`}><img src={`${HOST}/api/images/avatars/${recipe.imgUser}`} /><p>{recipe.author}</p></NavLink>
                 </div>}
 
                 <div className="focus__body">
