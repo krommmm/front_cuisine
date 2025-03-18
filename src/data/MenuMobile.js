@@ -1,7 +1,7 @@
 export const menuNavigationMobile = [
     {
         type: "page",
-        route: "accueil",
+        route: "",
         name: "Accueil",
         icon: "fa-solid fa-house"
     },
