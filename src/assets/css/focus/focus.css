@@ -335,6 +335,10 @@
     margin: 5px 0px;
 }
 
+.focusRight__steps__etapes__step p {
+    display: flex;
+}
+
 /* hauteur */
 .focus__body {
     height: auto;
