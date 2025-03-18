@@ -133,7 +133,7 @@
     height: fit-content;
 }
 
-   .searchBar__miniNavigation i {
+.searchBar__miniNavigation i {
     position: absolute;
     right: 25px;
     font-size: 22px;
@@ -188,4 +188,69 @@
 .mobileMenuActive {
     background-color: rgba(0, 0, 0, .1);
     border-radius: 3px;
+}
+
+/* navigation mobile */
+
+.MobileNavigation__body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.MobileNavigation__body ul {
+    display: flex;
+    flex-direction: column;
+}
+
+.sousMenuDeroulantMobile li {
+    list-style-type: none;
+}
+
+.sousMenuDeroulantMobile a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* sdfdsfdsfsdfsdfsdfsdf */
+
+.menu-header {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.nested-menu {
+    margin-left: 1rem;
+    transition: all 0.3s ease;
+}
+
+.MobileNavigation__body ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.MobileNavigation__body li {
+    padding: 0.5rem;
+}
+
+.MobileNavigation__body span {
+    font-size: 14px;
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.MobileNavigation__body span>p {
+    margin-right: 5px;
+}
+
+.MobileNavigation__body i {
+    font-size: 20px;
+}
+
+.MobileNavigation__body a {
+    display: flex;
+    align-items: center;
 }
