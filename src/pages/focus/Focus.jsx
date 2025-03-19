@@ -32,9 +32,11 @@ export function Focus() {
 
     async function controller() {
         let recipeRe = await getOneRecipe();
-        const userId = recipeRe.user_id;
-        const myUser = await getProfilById(userId);
-        recipeRe.imgUser = myUser.data.user.img_url;
+        if (state.isConnected) {
+            const userId = recipeRe.user_id;
+            const myUser = await getProfilById(userId);
+            recipeRe.imgUser = myUser.data.user.img_url;
+        }
         const recipeWidhtFavorites = await addFavoritesToData(recipeRe);
         setRecipe(recipeWidhtFavorites);
     }
