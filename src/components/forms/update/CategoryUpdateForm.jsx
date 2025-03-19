@@ -154,7 +154,7 @@ export function CategoryUpdateForm() {
                 </div>
                 <Lister onUpdate={setTags} name={"Tag"} />
                 <div className="answerButtons">
-                    <button type="submit" className="btn btn-suivant">Suivant</button>
+                    <button type="submit" className="btn btn-suivant">Modifier</button>
                     <div className={`state-${answer.state}`}>
                         <p className={`btn  answer-${answer.color}`}>{answer.msg}</p>
                     </div>

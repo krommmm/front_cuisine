@@ -61,16 +61,7 @@ export function ChatMenu() {
 
   useEffect(() => {
     socket.on("receiveMessage", async (data) => {
-      // const myUsersRes = await getUsers();
-      // const myUsers = myUsersRes.data.users;
       console.log(`Message from ${data.sender}: ${data.message}`);
-      // const sender = (myUsers.filter((user) => user._id === data.sender))[0];
-      // setHistoryChat((prevS) => [...prevS, ({ name: sender.name, img_url: sender.img_url, msg: data.message })]);
-      // const res = await getMessages(data.sender, data.receiver);
-      // const messages = res.data.messages;
-      // const updateMessages = updateDate(messages);
-      // setHistoryChat(updateMessages);
-
       majMessageHistory(data.sender, data.receiver)
     });
 
@@ -94,7 +85,7 @@ export function ChatMenu() {
           return;
         }
 
-        let allUsers = JSON.parse(JSON.stringify(myUsers)); // Copie de l'état actuel des utilisateurs
+        let allUsers = JSON.parse(JSON.stringify(myUsers));
         let receiver = allUsers.find((user) => user._id === copain);
         if (receiver && receiver._id === copain) {
           receiver.isCalled = true;
@@ -146,7 +137,7 @@ export function ChatMenu() {
       console.log(`Joining private chat between ${myId} and ${roomTargetUserId}`);
       joinPrivateChat(myId, roomTargetUserId);
     }
-  }, [myId, roomTargetUserId]); // Cette effect se lance chaque fois que myId ou userId change
+  }, [myId, roomTargetUserId]); 
 
 
   async function joinPrivateChat(userId1, userId2) {
