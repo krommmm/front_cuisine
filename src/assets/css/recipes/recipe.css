@@ -5,6 +5,33 @@
 
 .recipe {
     margin: 10px;
+    transition-duration: .4s;
+    position: relative;
+    overflow:hidden;
+}
+
+.recipe:hover {
+    transform: Scale(1.05);
+}
+
+.recipe::before {
+    content: "";
+    filter: blur(10px);
+    position: absolute;
+    z-index:9999;
+    height: 311px;
+    width: 100px;
+    filter: blur(10px);
+    background: linear-gradient(to right,rgba(255,255,255,0) 30%,rgba(255,255,255,.1) 100%);
+    top: -30px;
+    /* transition-duration:1.5s; */
+    transition-duration:0s;
+    transform: translateX(-250px) skewX(-25deg);
+}
+
+.recipe:hover::before {
+    transform: translateX(280px) skewX(-25deg);
+    transition-duration: .8s;
 }
 
 .recipe__top {
