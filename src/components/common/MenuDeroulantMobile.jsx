@@ -17,13 +17,13 @@ export function MenuDeroulantMobile({ data, onUpdateLeave, parentPath = '' }) {
         <>
             {data.map((cell, index) => {
                 const uniquePath = `${parentPath}-${index}`;
-                
+
                 return (
                     <ul key={uniquePath}>
                         {cell.type === "menu" ? (
-                            <li> 
-                                <div 
-                                    className="menu-header" 
+                            <li>
+                                <div
+                                    className="menu-header"
                                     onClick={() => handleMenuToggle(uniquePath)}
                                 >
                                     <span>
@@ -32,11 +32,11 @@ export function MenuDeroulantMobile({ data, onUpdateLeave, parentPath = '' }) {
                                     </span>
                                     <i className={`fa-solid fa-angle-${openMenuPath === uniquePath ? 'down' : 'right'}`}></i>
                                 </div>
-                                
+
                                 {openMenuPath === uniquePath && (
                                     <div className="nested-menu">
-                                        <MenuDeroulantMobile 
-                                            data={cell.children} 
+                                        <MenuDeroulantMobile
+                                            data={cell.children}
                                             onUpdateLeave={onUpdateLeave}
                                             parentPath={uniquePath}
                                         />
@@ -46,8 +46,8 @@ export function MenuDeroulantMobile({ data, onUpdateLeave, parentPath = '' }) {
                         ) : (
                             // Logique de protection des routes
                             (isProtectedRoute(cell.route) ? state.isConnected : true) && (
-                                <NavLink 
-                                    to={`/${cell.route}?page=1${cell.category ? `&category=${cell.category}` : ''}${cell.tag ? `&tag=${cell.tag}` : ''}`}
+                                <NavLink
+                                    to={`/${cell.route}${cell.route === "create" ? "?form-create-etape=1&page=1" : "?page=1"}${cell.category ? `&category=${cell.category}` : ''}${cell.tag ? `&tag=${cell.tag}` : ''}`}
                                     onClick={() => {
                                         if (isProtectedRoute(cell.route) && !state.isConnected) {
                                             alert("Veuillez vous connecter pour accéder à cette section");
